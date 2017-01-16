@@ -65,11 +65,11 @@ of the previous buffer, if the major-mode is listed in
 (defun yxl-buffer-switch-same-major-mode ()
   (interactive)
   (let ((cur-mode major-mode))
-   (ivy-read (format "Switch to buffer(s) of %s: " cur-mode)
-            (yxl-buffer--ivy-get-buffer-list-with-mode cur-mode)
-            :action (lambda (x)
-                      (switch-to-buffer x))
-            :caller 'yxl-buffer-switch-same-major-mode)))
+    (ivy-read (format "Switch to buffer(s) of %s: " cur-mode)
+              (yxl-buffer--ivy-get-buffer-list-with-mode cur-mode)
+              :action (lambda (x)
+                        (switch-to-buffer x))
+              :caller 'yxl-buffer-switch-same-major-mode)))
 
 
 (provide 'yxl-buffer)

@@ -46,30 +46,30 @@
   (interactive)
   (let ((cli-cmd (cond ((eq system-type 'darwin) "pbcopy")
                        ((eq system-type 'gnu/linux) "xsel --clipboard --input"))))
-   (if (display-graphic-p)
-      (progn
-        (message "Yanked region to x-clipboard!")
-        (call-interactively 'clipboard-kill-ring-save))
-    (if (region-active-p)
+    (if (display-graphic-p)
         (progn
-          (shell-command-on-region (region-beginning) (region-end) cli-cmd)
-          (message "Yanked region to clipboard!")
-          (deactivate-mark))
-      (message "No region active; can't yank to clipboard!")))))
+          (message "Yanked region to x-clipboard!")
+          (call-interactively 'clipboard-kill-ring-save))
+      (if (region-active-p)
+          (progn
+            (shell-command-on-region (region-beginning) (region-end) cli-cmd)
+            (message "Yanked region to clipboard!")
+            (deactivate-mark))
+        (message "No region active; can't yank to clipboard!")))))
 
 (defun yxl-paste-from-clipboard ()
   "Pastes from x-clipboard."
   (interactive)
   (let ((cli-cmd (cond ((eq system-type 'darwin) "pbpaste")
                        ((eq system-type 'gnu/linux) "xsel --clipboard --input"))))
-   (if (display-graphic-p)
-      (progn
-        (clipboard-yank)
-        (message "graphics active"))
-     ;; TODO: check if the evil package is used
-     (if (eq evil-state 'normal)
-         (evil-append 1))
-    (insert (shell-command-to-string cli-cmd)))))
+    (if (display-graphic-p)
+        (progn
+          (clipboard-yank)
+          (message "graphics active"))
+      ;; TODO: check if the evil package is used
+      (if (eq evil-state 'normal)
+          (evil-append 1))
+      (insert (shell-command-to-string cli-cmd)))))
 
 
 

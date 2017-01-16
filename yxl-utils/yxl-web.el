@@ -6,7 +6,7 @@
 (setq browse-url-browser-function 'browse-url-generic)
 (setq browse-url-generic-program "open")
 (if (eq system-type 'gnu/linux)
-  (setq browse-url-generic-program "xdg-open"))
+    (setq browse-url-generic-program "xdg-open"))
 
 (setq-default yxl-web-primary-browser-func browse-url-browser-function)
 (setq-default yxl-web-secondary-browser-func #'w3m-goto-url-new-session)

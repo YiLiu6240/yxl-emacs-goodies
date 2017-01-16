@@ -104,20 +104,20 @@
 (defun yxl-window-split-horizontal-stay ()
   (interactive)
   (let* ((win-size (- (round (* (yxl-window-get-ratio t)
-                             (window-total-height))))))
+                                (window-total-height))))))
     (split-window-below win-size)))
 
 (defun yxl-window-split-vertical-focus ()
   (interactive)
   (let* ((win-size (- (round (* (yxl-window-get-ratio t)
-                             (window-total-width))))))
+                                (window-total-width))))))
     (split-window-right win-size)
     (evil-window-right 1)))
 
 (defun yxl-window-split-vertical-stay ()
   (interactive)
   (let* ((win-size (- (round (* ((yxl-window-get-ratio t))
-                             (window-total-width))))))
+                                (window-total-width))))))
     (split-window-right win-size)))
 
 

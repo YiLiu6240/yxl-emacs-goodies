@@ -160,17 +160,19 @@ The cursor is moved to the beginning of the first feed line."
 (defun yxl-helm-elfeed-search ()
   (interactive)
   (helm :sources
-        `(,(helm-build-sync-source "Helm Elfeed Search"
-             :candidates yxl-env-elfeed-tag-alist
-             ;; NOTE: use `apply' instead of `funcall' for passing arg list
-             :action (lambda (x) (apply #'elfeed--read-tag x)))
-          ,(helm-build-sync-source "Fallback"
-             :match (lambda (_candidate) t)
-             :candidates '(("Default filter" .
-                            (lambda (x) (elfeed--read-tag
-                                         (default-value 'elfeed-search-filter))))
-                           ("Manual filter" . (lambda (x) (elfeed--read-tag x))))
-             :action (lambda (x) (funcall x helm-pattern))))
+        `(,(helm-build-sync-source
+            "Helm Elfeed Search"
+            :candidates yxl-env-elfeed-tag-alist
+            ;; NOTE: use `apply' instead of `funcall' for passing arg list
+            :action (lambda (x) (apply #'elfeed--read-tag x)))
+          ,(helm-build-sync-source
+            "Fallback"
+            :match (lambda (_candidate) t)
+            :candidates '(("Default filter" .
+                           (lambda (x) (elfeed--read-tag
+                                        (default-value 'elfeed-search-filter))))
+                          ("Manual filter" . (lambda (x) (elfeed--read-tag x))))
+            :action (lambda (x) (funcall x helm-pattern))))
         :buffer "*Helm Elfeed Search*"))
 
 
