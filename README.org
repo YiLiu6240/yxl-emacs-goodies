@@ -1,3 +1,10 @@
 #+title: yxl-emacs-goodies
 
 My collection of goodies for emacs.
+
+Dependencies:
+- text editing: ~evil~, ~evil-indent-plus~
+- markup: ~org~
+- completion: ~helm~, ~ivy~, ~hydra~
+- langs: ~ess~
+- other utils: ~pdf-tools~, ~elfeed~, ~w3m~
