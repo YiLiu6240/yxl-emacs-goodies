@@ -64,4 +64,4 @@
 
 
 
-(provide 'yxl-helm)
+(provide 'yxl-helm-hotspot)
