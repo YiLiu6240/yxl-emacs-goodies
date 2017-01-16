@@ -1,4 +1,6 @@
 (require 'org)
+(require 'yxl-find)
+(require 'yxl-org-patch)
 
 
 

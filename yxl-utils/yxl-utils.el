@@ -3,7 +3,6 @@
 (require 'yxl-window)
 (require 'yxl-buffer)
 (require 'yxl-find)
-(require 'yxl-org)
 (require 'yxl-web)
 
 
