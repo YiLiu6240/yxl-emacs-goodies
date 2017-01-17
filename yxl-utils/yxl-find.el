@@ -13,6 +13,17 @@
      (t
       (yxl-window-popwin (find-file-noselect file) pop-width 'left)))))
 
+(defun yxl-find-file-stay (file)
+  (interactive)
+  (let ((pop-width (yxl-window-popwin-width)))
+    (cond
+     ((equal current-prefix-arg '(4))
+      (yxl-window-popwin (find-file-noselect file) pop-width 'left))
+     ((equal current-prefix-arg '(16))
+      (find-file-other-window file))
+     (t
+      (find-file file)))))
+
 (defun yxl-find-file-open-all (file-list)
   "TODO: add doc"
   (let* ((file-len (length file-list))
