@@ -62,7 +62,7 @@
 (defun yxl-helm-hotspot ()
   (interactive)
   (helm :sources
-        '(,(helm-build-sync-source
+        `(,(helm-build-sync-source
             "My hotspot"
             :candidates yxl-env-helm-hotspot-alist
             :action (helm-make-actions
