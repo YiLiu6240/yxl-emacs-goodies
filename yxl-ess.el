@@ -22,5 +22,18 @@
   (yxl-ess-execute-func-at-point r-func))
 
 
+;; my own custom funcs in R
+
+(defun yxl-ess-exec-lsos ()
+  "invoke lsos function, this function needs to be in environment"
+  (interactive)
+  (ess-execute "lsos()"))
+
+(defun yxl-ess-exec-lsdf ()
+  "invoke lsos function, this function needs to be in environment"
+  (interactive)
+  (ess-execute "lsdf()"))
+
+
 
 (provide 'yxl-ess)
