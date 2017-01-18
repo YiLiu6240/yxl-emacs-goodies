@@ -116,7 +116,7 @@
 
 (defun yxl-window-split-vertical-stay ()
   (interactive)
-  (let* ((win-size (- (round (* ((yxl-window-get-ratio t))
+  (let* ((win-size (- (round (* (yxl-window-get-ratio t)
                                 (window-total-width))))))
     (split-window-right win-size)))
 
