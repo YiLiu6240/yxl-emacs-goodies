@@ -3,6 +3,12 @@
 
 
 
+(defun yxl-evil-execute-last-macro ()
+  (interactive)
+  (evil-execute-macro 1 last-kbd-macro))
+
+
+
 (evil-define-command yxl-evil-quit (&optional force)
   "Only delete window when there is multiple window open,
 otherwise prompt message to confirm to delete frame."
