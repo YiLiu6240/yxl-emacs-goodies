@@ -35,7 +35,7 @@
           ,(helm-build-sync-source
             "Fallback"
              :match (lambda (_candidate) t)
-             :candidates '(("yxl-helm-quick" . (lambda (x) (yxl-helm-quick)))
+             :candidates '(("yxl-helm-hotspot" . (lambda (x) (yxl-helm-hotspot)))
                            ("Google search" .
                             (lambda (x)
                               (let* ((google-base "http://www.google.com/search?q=%s")
@@ -56,7 +56,7 @@
           ,(helm-build-sync-source
             "Helm Quick"
              :match (lambda (_candidate) t)  ;; persistent
-             :candidates '(("yxl-helm-quick" . yxl-helm-quick))
+             :candidates '(("yxl-helm-hotspot" . yxl-helm-hotspot))
              :action (lambda (candidate) (funcall candidate))))))
 
 (defun yxl-helm-reading-list ()
