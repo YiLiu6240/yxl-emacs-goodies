@@ -3,6 +3,10 @@
 
 
 (defun yxl-helm-org-files ()
+  "
+Dependency: `yxl-env-org-files'.
+A list of file paths.
+"
   (interactive)
   (helm :sources
         `(,(helm-build-sync-source
@@ -24,6 +28,10 @@
         :buffer "*helm org agenda*"))
 
 (defun yxl-helm-websites ()
+  "
+Dependency: `yxl-env-websites-alist'.
+An assoc list with elements as (ALIAS . FILE-PATH).
+"
   (interactive)
   (helm :sources
         `(,(helm-build-sync-source
@@ -46,6 +54,10 @@
              :action (lambda (candidate) (funcall candidate helm-pattern))))))
 
 (defun yxl-helm-files ()
+  "
+Dependency: `yxl-env-files-alist'.
+An assoc list with elements as (ALIAS . FILE-PATH).
+"
   (interactive)
   (helm :sources
         `(,(helm-build-sync-source
@@ -60,6 +72,10 @@
              :action (lambda (candidate) (funcall candidate))))))
 
 (defun yxl-helm-reading-list ()
+  "
+Dependency: `yxl-personal-reading-alist'.
+An assoc list with elements as (ALIAS . (PATH ACTION1 ACTION2)).
+"
   (interactive)
   (helm :sources
         `(,(helm-build-sync-source
