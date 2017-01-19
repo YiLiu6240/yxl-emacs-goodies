@@ -100,6 +100,19 @@ An assoc list with elements as (ALIAS . (PATH ACTION1 ACTION2)).
              :candidates '(("yxl-helm-hotspot" . yxl-helm-hotspot))
              :action (lambda (candidate) (funcall candidate))))))
 
+(setq yxl-env-helm-hotspot-alist
+      '(("yxl-helm-org-files" . yxl-helm-org-files)
+        ("yxl-helm-files" . yxl-helm-files)
+        ("yxl-helm-websites" . yxl-helm-websites)
+        ("yxl-helm-reading-list" . yxl-helm-reading-list)
+        ("calendar" . cfw-open-calendar)
+        ("calculator" . (lambda ()
+                          (helm-calcul-expression)))
+        ("rss" . elfeed)
+        ("helm-github-stars" . helm-github-stars)
+        ("helm-show-kill-ring" . helm-show-kill-ring)
+        ("helm-all-mark-rings" . helm-all-mark-rings)))
+
 (defun yxl-helm-hotspot ()
   (interactive)
   (helm :sources
