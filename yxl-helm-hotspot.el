@@ -74,20 +74,22 @@ An assoc list with elements as (ALIAS . FILE-PATH).
 (defun yxl-helm-reading-list ()
   "
 Dependency:
-- `yxl-personal-reading-files-alist': local files (ALIAS . FILE-PATH)
-- `yxl-personal-reading-webpages-alist': webpages (ALIAS . FILE-PATH)
+- `yxl-file-reading-list-files'
+- `yxl-file-reading-list-webpages'
 "
   (interactive)
   (helm :sources
-        `(,(helm-build-sync-source
+        `(,(helm-build-in-file-source
                "Reading: local files"
-             :candidates yxl-personal-reading-files-alist
+             yxl-file-reading-list-files
              :action (helm-make-actions
                       "open" #'find-file
-                      "open-alt" #'spacemacs//open-in-external-app))
-          ,(helm-build-sync-source
+                      "open-alt" (lambda (x)
+                                   (spacemacs//open-in-external-app
+                                    (expand-file-name x)))))
+          ,(helm-build-in-file-source
                "Reading: web pages"
-             :candidates yxl-personal-reading-webpages-alist
+             yxl-file-reading-list-webpages
              :action (helm-make-actions
                       "browse" #'browse-url-generic
                       "browse in w3m" #'w3m-goto-url-new-session))
