@@ -73,27 +73,24 @@ An assoc list with elements as (ALIAS . FILE-PATH).
 
 (defun yxl-helm-reading-list ()
   "
-Dependency: `yxl-personal-reading-alist'.
-An assoc list with elements as (ALIAS . (PATH ACTION1 ACTION2)).
+Dependency:
+- `yxl-personal-reading-files-alist': local files (ALIAS . FILE-PATH)
+- `yxl-personal-reading-webpages-alist': webpages (ALIAS . FILE-PATH)
 "
   (interactive)
   (helm :sources
         `(,(helm-build-sync-source
-               "My reading list"
-             :candidates yxl-personal-reading-alist
+               "Reading: local files"
+             :candidates yxl-personal-reading-files-alist
              :action (helm-make-actions
-                      "open"
-                      (lambda (x)
-                        (let ((target (car x))
-                              (act (car (cdr x)))
-                              (act-alt (car (last x))))
-                          (funcall act target)))
-                      "open-alt"
-                      (lambda (x)
-                        (let ((target (car x))
-                              (act (car (cdr x)))
-                              (act-alt (car (last x))))
-                          (funcall act-alt target)))))
+                      "open" #'find-file
+                      "open-alt" #'spacemacs//open-in-external-app))
+          ,(helm-build-sync-source
+               "Reading: web pages"
+             :candidates yxl-personal-reading-webpages-alist
+             :action (helm-make-actions
+                      "browse" #'browse-url-generic
+                      "browse in w3m" #'w3m-goto-url-new-session))
           ,(helm-build-sync-source
                "Helm Quick"
              :match (lambda (_candidate) t)  ;; persistent
