@@ -59,6 +59,31 @@
              :candidates '(("yxl-helm-quick" . yxl-helm-quick))
              :action (lambda (candidate) (funcall candidate))))))
 
+(defun yxl-helm-reading-list ()
+  (interactive)
+  (helm :sources
+        `(,(helm-build-sync-source
+               "My reading list"
+             :candidates yxl-personal-reading-alist
+             :action (helm-make-actions
+                      "open"
+                      (lambda (x)
+                        (let ((target (car x))
+                              (act (car (cdr x)))
+                              (act-alt (car (last x))))
+                          (funcall act target)))
+                      "open-alt"
+                      (lambda (x)
+                        (let ((target (car x))
+                              (act (car (cdr x)))
+                              (act-alt (car (last x))))
+                          (funcall act-alt target)))))
+          ,(helm-build-sync-source
+               "Helm Quick"
+             :match (lambda (_candidate) t)  ;; persistent
+             :candidates '(("yxl-helm-hotspot" . yxl-helm-hotspot))
+             :action (lambda (candidate) (funcall candidate))))))
+
 (defun yxl-helm-hotspot ()
   (interactive)
   (helm :sources
