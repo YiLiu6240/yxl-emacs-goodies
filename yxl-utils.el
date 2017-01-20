@@ -7,10 +7,13 @@
 
 
 
-(defun yxl-append-to-scratch (text)
+(defun yxl-append-to-scratch (&optional file)
   "receive input text and append this text to scratch"
-  (interactive "stext: ")
-  (let* ((scratch-buf (get-buffer-create "*scratch*"))
+  (interactive)
+  (let* ((text (read-string "Enter text:"))
+         (scratch-buf (if file
+                          (find-file-noselect file)
+                        (get-buffer-create "*scratch*")))
          (text-with-newline (concat text "\n")))
     (save-excursion
       (with-current-buffer scratch-buf
