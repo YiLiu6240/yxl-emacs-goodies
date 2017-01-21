@@ -50,6 +50,8 @@
   "Instead of directly going to `path', feed files in `path'
 to `counsel-find-file'."
   (let ((default-directory path))
-    (counsel-find-file)))
+    (if current-prefix-arg
+        (find-file path)
+      (counsel-find-file))))
 
 (provide 'yxl-find)
