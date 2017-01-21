@@ -1,4 +1,5 @@
 (require 'popwin)
+(require 'counsel)
 
 
 
@@ -44,5 +45,11 @@
               (funcall (cdr x)))
             (find-file (car x)))
           final-alist)))
+
+(defun yxl-find-dir (path)
+  "Instead of directly going to `path', feed files in `path'
+to `counsel-find-file'."
+  (let ((default-directory path))
+    (counsel-find-file)))
 
 (provide 'yxl-find)
