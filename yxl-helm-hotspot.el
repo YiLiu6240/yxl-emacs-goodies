@@ -33,25 +33,26 @@ Dependency: `yxl-env-websites-alist'.
 An assoc list with elements as (ALIAS . FILE-PATH).
 "
   (interactive)
-  (helm :sources
-        `(,(helm-build-sync-source
-            "Websites"
-             :candidates yxl-env-websites-alist
-             :action (helm-make-actions
-                      "open" (lambda (x) (browse-url-generic x))
-                      "open-w3m" (lambda (x) (w3m-goto-url-new-session x))))
-          ,(helm-build-sync-source
-            "Fallback"
-             :match (lambda (_candidate) t)
-             :candidates '(("yxl-helm-hotspot" . (lambda (x) (yxl-helm-hotspot)))
-                           ("Google search" .
-                            (lambda (x)
-                              (let* ((google-base "http://www.google.com/search?q=%s")
-                                     (query-string (replace-regexp-in-string " " "\+" x))
-                                     (url-string (format google-base query-string)))
-                                (browse-url-generic url-string))))
-                           ("Direct Input" . (lambda (x) (browse-url-generic x))))
-             :action (lambda (candidate) (funcall candidate helm-pattern))))))
+  (let ((helm-full-frame t))
+    (helm :sources
+          `(,(helm-build-in-file-source
+                 "Websites"
+               yxl-file-sites-web
+               :action (helm-make-actions
+                        "open" (lambda (x) (browse-url-generic x))
+                        "open-w3m" (lambda (x) (w3m-goto-url-new-session x))))
+            ,(helm-build-sync-source
+                 "Fallback"
+               :match (lambda (_candidate) t)
+               :candidates '(("yxl-helm-hotspot" . (lambda (x) (yxl-helm-hotspot)))
+                             ("Google search" .
+                              (lambda (x)
+                                (let* ((google-base "http://www.google.com/search?q=%s")
+                                       (query-string (replace-regexp-in-string " " "\+" x))
+                                       (url-string (format google-base query-string)))
+                                  (browse-url-generic url-string))))
+                             ("Direct Input" . (lambda (x) (browse-url-generic x))))
+               :action (lambda (candidate) (funcall candidate helm-pattern)))))))
 
 (defun yxl-helm-files ()
   "
@@ -59,17 +60,18 @@ Dependency: `yxl-env-files-alist'.
 An assoc list with elements as (ALIAS . FILE-PATH).
 "
   (interactive)
-  (helm :sources
-        `(,(helm-build-sync-source
-            "Files and Directories"
-             :candidates yxl-env-files-alist
-             :action (helm-make-actions
-                      "open" (lambda (x) (find-file x))))
-          ,(helm-build-sync-source
-            "Helm Quick"
-             :match (lambda (_candidate) t)  ;; persistent
-             :candidates '(("yxl-helm-hotspot" . yxl-helm-hotspot))
-             :action (lambda (candidate) (funcall candidate))))))
+  (let ((helm-full-frame t))
+    (helm :sources
+          `(,(helm-build-in-file-source
+                 "Files and Directories"
+               yxl-file-sites-local
+               :action (helm-make-actions
+                        "open" (lambda (x) (find-file x))))
+            ,(helm-build-sync-source
+                 "Helm Quick"
+               :match (lambda (_candidate) t) ;; persistent
+               :candidates '(("yxl-helm-hotspot" . yxl-helm-hotspot))
+               :action (lambda (candidate) (funcall candidate)))))))
 
 (defun yxl-helm-reading-list ()
   "
@@ -78,7 +80,8 @@ Dependency:
 - `yxl-file-reading-list-webpages'
 "
   (interactive)
-  (helm :sources
+  (let ((helm-full-frame t))
+   (helm :sources
         `(,(helm-build-in-file-source
                "Reading: local files"
              yxl-file-reading-list-files
@@ -97,7 +100,7 @@ Dependency:
                "Helm Quick"
              :match (lambda (_candidate) t)  ;; persistent
              :candidates '(("yxl-helm-hotspot" . yxl-helm-hotspot))
-             :action (lambda (candidate) (funcall candidate))))))
+             :action (lambda (candidate) (funcall candidate)))))))
 
 (setq yxl-env-helm-hotspot-alist
       '(("yxl-helm-org-files" . yxl-helm-org-files)
