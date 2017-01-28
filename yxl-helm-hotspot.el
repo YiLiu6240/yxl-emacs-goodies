@@ -27,34 +27,7 @@ A list of file paths.
              :action (lambda (candidate) (funcall candidate helm-pattern))))
         :buffer "*helm org agenda*"))
 
-(defun yxl-helm-websites ()
-  "
-Dependency: `yxl-env-websites-alist'.
-An assoc list with elements as (ALIAS . FILE-PATH).
-"
-  (interactive)
-  (let ((helm-full-frame t))
-    (helm :sources
-          `(,(helm-build-in-file-source
-                 "Websites"
-               yxl-file-sites-web
-               :action (helm-make-actions
-                        "open" (lambda (x) (browse-url-generic x))
-                        "open-w3m" (lambda (x) (w3m-goto-url-new-session x))))
-            ,(helm-build-sync-source
-                 "Fallback"
-               :match (lambda (_candidate) t)
-               :candidates '(("yxl-helm-hotspot" . (lambda (x) (yxl-helm-hotspot)))
-                             ("Google search" .
-                              (lambda (x)
-                                (let* ((google-base "http://www.google.com/search?q=%s")
-                                       (query-string (replace-regexp-in-string " " "\+" x))
-                                       (url-string (format google-base query-string)))
-                                  (browse-url-generic url-string))))
-                             ("Direct Input" . (lambda (x) (browse-url-generic x))))
-               :action (lambda (candidate) (funcall candidate helm-pattern)))))))
-
-(defun yxl-helm-files ()
+(defun yxl-helm-shortcuts ()
   "
 Dependency: `yxl-env-files-alist'.
 An assoc list with elements as (ALIAS . FILE-PATH).
@@ -67,10 +40,22 @@ An assoc list with elements as (ALIAS . FILE-PATH).
                yxl-file-sites-local
                :action (helm-make-actions
                         "open" (lambda (x) (find-file x))))
+            ,(helm-build-in-file-source
+                 "Websites"
+               yxl-file-sites-web
+               :action (helm-make-actions
+                        "open" (lambda (x) (browse-url-generic x))
+                        "open-w3m" (lambda (x) (w3m-goto-url-new-session x))))
             ,(helm-build-sync-source
                  "Helm Quick"
                :match (lambda (_candidate) t) ;; persistent
-               :candidates '(("yxl-helm-hotspot" . yxl-helm-hotspot))
+               :candidates '(("yxl-helm-hotspot" . yxl-helm-hotspot)
+                             ("Google search" .
+                              (lambda (x)
+                                (let* ((google-base "http://www.google.com/search?q=%s")
+                                       (query-string (replace-regexp-in-string " " "\+" x))
+                                       (url-string (format google-base query-string)))
+                                  (browse-url-generic url-string)))))
                :action (lambda (candidate) (funcall candidate)))))))
 
 (defun yxl-helm-reading-list ()
@@ -104,8 +89,7 @@ Dependency:
 
 (setq yxl-env-helm-hotspot-alist
       '(("yxl-helm-org-files" . yxl-helm-org-files)
-        ("yxl-helm-files" . yxl-helm-files)
-        ("yxl-helm-websites" . yxl-helm-websites)
+        ("yxl-helm-shortcuts" . yxl-helm-shortcuts)
         ("yxl-helm-reading-list" . yxl-helm-reading-list)
         ("calendar" . cfw-open-calendar)
         ("calculator" . (lambda ()
