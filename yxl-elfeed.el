@@ -3,6 +3,10 @@
 
 
 
+(defvar yxl-elfeed-tag-alist nil "tag list for search.")
+
+
+
 (defun zilong/elfeed-mark-all-as-read ()
   (interactive)
   (mark-whole-buffer)
@@ -157,12 +161,12 @@ The cursor is moved to the beginning of the first feed line."
   (forward-line)
   (message (concat "elfeed-search-filter: " elfeed-search-filter)))
 
-(defun yxl-helm-elfeed-search ()
+(defun yxl-elfeed-helm-search ()
   (interactive)
   (helm :sources
         `(,(helm-build-sync-source
             "Helm Elfeed Search"
-            :candidates yxl-personal-elfeed-tag-alist
+            :candidates yxl-elfeed-tag-alist
             ;; NOTE: use `apply' instead of `funcall' for passing arg list
             :action (lambda (x) (apply #'elfeed--read-tag x)))
           ,(helm-build-sync-source
