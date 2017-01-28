@@ -99,7 +99,7 @@ Version 2015-11-30"
   ("q" nil "quit" :color blue)
   ("o" yxl-dired-open-in-desktop "open in desktop" :color blue)
   ("s" hydra-dired-quick-sort/body "+sort" :color blue)
-  ("T" hydra-dired-toggle/body "+toggle" :color blue)
+  ("T" yxl-hydra-dired-toggle/body "+toggle" :color blue)
   ("*" yxl-dired-hydra-mark/body "+mark" :color blue)
   ("m" dired-mark "mark")
   ("u" dired-unmark "unmark")
@@ -119,7 +119,7 @@ Version 2015-11-30"
   ("-" xah-dired-rename-space-to-hyphen "rename: -")
   ("+" dired-create-directory "mkdir"))
 
-(defhydra hydra-dired-toggle
+(defhydra yxl-hydra-dired-toggle
   (:hint none :color red)
   "
  | _q_ ../             | _T_ ../      | _._ quit
