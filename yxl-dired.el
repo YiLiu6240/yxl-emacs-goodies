@@ -64,7 +64,7 @@ Version 2015-11-30"
 
 
 
-(defhydra yxl-dired-hydra-common (:color blue)
+(defhydra yxl-dired-hydra-common (:color blue :hint nil)
   ("." nil "quit"))
 
 (defhydra yxl-dired-hydra-mark
@@ -88,14 +88,7 @@ Version 2015-11-30"
   ("%" dired-mark-files-regexp))
 
 (defhydra yxl-dired-hydra-main
-  (:color pink :inherit (yxl-dired-hydra-common/heads))
-  "
- | _T_: +toggle ^^^^                   | _s_: +sort  ^^^^               | _*_: +mark ^^^^                 |
- | _m_/_u_/_U_: mark/unmark/unmark all | _y_: filename ^^^^             | _C_/_D_/_R_: copy/delete/rename | _+_: mkdir |
- | _H_/_S_: hardlink/symlink ^^        | _M_/_G_/_O_: chmod/chgrp/chown |
- | _Z_: compress ^^^^                  |
- | ___/_-_: rename: _/- ^^             |
-"
+  (:color pink :inherit (yxl-dired-hydra-common/heads) :hint nil :columns 4)
   ("q" nil "quit" :color blue)
   ("o" yxl-dired-open-in-desktop "open in desktop" :color blue)
   ("s" hydra-dired-quick-sort/body "+sort" :color blue)
