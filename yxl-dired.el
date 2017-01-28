@@ -10,7 +10,7 @@
 
 
 
-(defun yxl-ivy--get-dired-buffer-list ()
+(defun yxl-dired--ivy-get-dired-buffer-list ()
   (delq nil
         (mapcar
          (lambda (buffer)
@@ -18,7 +18,7 @@
              (buffer-local-value 'default-directory buffer)))
          (buffer-list))))
 
-(defun yxl-ivy--get-non-dired-buffer-list ()
+(defun yxl-dired--ivy-get-non-dired-buffer-list ()
   (delq nil
         (mapcar
          (lambda (buffer)
@@ -26,14 +26,15 @@
              (buffer-file-name buffer)))
          (buffer-list))))
 
-(defun yxl-ivy-switch-dired-buffer ()
+(defun yxl-dired-ivy-switch-buffer ()
   "Switch to another buffer."
   (interactive)
   (ivy-read "Switch to dired buffer: "
-            (yxl-ivy--get-dired-buffer-list)
+            (yxl-dired--ivy-get-dired-buffer-list)
             :action (lambda (x)
                       (find-file x))
-            :caller 'yxl-ivy-switch-dired-buffer))
+            :caller 'yxl-dired-ivy-switch-buffer))
+
 
 
 (defun yxl-dired/open-in-desktop ()
