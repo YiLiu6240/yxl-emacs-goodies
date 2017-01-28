@@ -162,7 +162,7 @@ The cursor is moved to the beginning of the first feed line."
   (helm :sources
         `(,(helm-build-sync-source
             "Helm Elfeed Search"
-            :candidates yxl-env-elfeed-tag-alist
+            :candidates yxl-personal-elfeed-tag-alist
             ;; NOTE: use `apply' instead of `funcall' for passing arg list
             :action (lambda (x) (apply #'elfeed--read-tag x)))
           ,(helm-build-sync-source
