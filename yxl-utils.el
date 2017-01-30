@@ -85,6 +85,13 @@
         (text-scale-increase scale))
     (text-scale-set 0)))
 
+(defun yxl-terminal-transparency ()
+  "If in terminal environment, remove bg color of `default' face."
+  (interactive)
+  (if (display-graphic-p)
+      (message "not a terminal client")
+    (set-face-background 'default "unspecified-bg" (selected-frame))))
+
 
 
 (provide 'yxl-utils)
