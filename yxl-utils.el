@@ -46,6 +46,7 @@
 
 (defun yxl-copy-to-clipboard ()
   "Copies selection to x-clipboard."
+  ;; TODO: add source
   (interactive)
   (let ((cli-cmd (cond ((eq system-type 'darwin) "pbcopy")
                        ((eq system-type 'gnu/linux) "xsel --clipboard --input"))))
