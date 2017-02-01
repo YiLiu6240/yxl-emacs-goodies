@@ -84,9 +84,11 @@ This function makes sure that dates are aligned for easy reading."
 
 (defun yxl-org-refile-visible ()
   (interactive)
-  (let* ((visible-org-files (yxl-org--get-visible-buffers))
-         (org-refile-targets visible-org-files))
-    (call-interactively #'org-refile)))
+  (if current-prefix-arg
+      (call-interactively #'org-refile)
+    (let* ((visible-org-files (yxl-org--get-visible-buffers))
+           (org-refile-targets visible-org-files))
+      (call-interactively #'org-refile))))
 
 
 
