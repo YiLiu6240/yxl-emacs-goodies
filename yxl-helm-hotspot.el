@@ -59,9 +59,15 @@ An assoc list with elements as (ALIAS . FILE-PATH).
                         "open" (lambda (x) (browse-url-generic x))
                         "open-w3m" (lambda (x) (w3m-goto-url-new-session x))))
             ,(helm-build-sync-source
-                 "Helm Quick"
+                 "Fallback"
                :match (lambda (_candidate) t) ;; persistent
-               :candidates '(("yxl-helm-hotspot" . yxl-helm-hotspot)
+               :candidates '(("open: local" .
+                              (lambda ()
+                                (find-file yxl-hhs-file-local-list)))
+                             ("open: webpages" .
+                              (lambda ()
+                                (find-file yxl-hhs-file-web-list)))
+                             ("yxl-helm-hotspot" . yxl-helm-hotspot)
                              ("Google search" .
                               (lambda (x)
                                 (let* ((google-base "http://www.google.com/search?q=%s")
@@ -92,9 +98,15 @@ reading list.
                       "browse" #'browse-url-generic
                       "browse in w3m" #'w3m-goto-url-new-session))
           ,(helm-build-sync-source
-               "Helm Quick"
+               "Fallback"
              :match (lambda (_candidate) t)  ;; persistent
-             :candidates '(("yxl-helm-hotspot" . yxl-helm-hotspot))
+             :candidates '(("open: local" .
+                            (lambda ()
+                              (find-file yxl-hhs-file-reading-list-local)))
+                           ("open: webpages" .
+                            (lambda ()
+                              (find-file yxl-hhs-file-reading-list-webpages)))
+                           ("yxl-helm-hotspot" . yxl-helm-hotspot))
              :action (lambda (candidate) (funcall candidate)))))))
 
 (setq yxl-hhs--entry-list
