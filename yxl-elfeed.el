@@ -6,6 +6,27 @@
 
 (defvar yxl-elfeed-tag-alist nil "tag list for search.")
 
+(defvar yxl-elfeed-score-alist nil "list for keyword scores")
+
+(defface elfeed-search-star-title-face
+  `((t :foreground ,(face-attribute 'bold :foreground)))
+  "Marks a starred Elfeed entry.")
+
+(push '(star elfeed-search-star-title-face) elfeed-search-face-alist)
+
+;; http://kitchingroup.cheme.cmu.edu/blog/category/elfeed/
+(defface elfeed-relevant-entry
+  `((t :background ,(face-attribute 'match :background)))
+  "Marks a relevant elfeed entry.")
+
+(defface elfeed-important-entry
+  `((t :background ,(face-attribute 'lazy-highlight :background)))
+  "Marks a relevant elfeed entry.")
+
+(push '(relevant elfeed-relevant-entry) elfeed-search-face-alist)
+
+(push '(important elfeed-important-entry) elfeed-search-face-alist)
+
 
 
 (defun zilong/elfeed-mark-all-as-read ()
@@ -32,12 +53,6 @@
 (defalias 'elfeed-toggle-star
   (elfeed-expose #'elfeed-search-toggle-all 'star))
 
-(defface elfeed-search-star-title-face
-  `((t :foreground ,(face-attribute 'bold :foreground)))
-  "Marks a starred Elfeed entry.")
-
-(push '(star elfeed-search-star-title-face) elfeed-search-face-alist)
-
 
 
 ;; http://heikkil.github.io/blog/2015/02/24/custom-elfeed-filter-functions/
@@ -56,6 +71,32 @@ The cursor is moved to the beginning of the first feed line."
   (goto-char (point-min))
   (forward-line)
   (message (concat "elfeed-search-filter: " elfeed-search-filter)))
+
+;; http://kitchingroup.cheme.cmu.edu/blog/category/elfeed/
+(defun score-elfeed-entry (entry)
+  (let ((title (elfeed-entry-title entry))
+        (content (elfeed-deref (elfeed-entry-content entry)))
+        (score 0))
+    (loop for (pattern n) in yxl-elfeed-score-alist
+          if (string-match pattern title)
+          do (incf score n)
+          if (string-match pattern content)
+          do (incf score n))
+    (message "%s - %s" title score)
+
+    ;; ;; store score for later in case I ever integrate machine learning
+    ;; (setf (elfeed-meta entry :my/score) score)
+
+    (cond
+     ((= score 1)
+      (elfeed-tag entry 'relevant))
+     ((> score 1)
+      (elfeed-tag entry 'important)))
+    entry))
+
+(add-hook 'elfeed-new-entry-hook #'score-elfeed-entry)
+
+
 
 (defun yxl-elfeed-helm-search ()
   (interactive)
