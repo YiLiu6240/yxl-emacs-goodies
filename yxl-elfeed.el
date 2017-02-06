@@ -1,6 +1,7 @@
 (require 'elfeed)
 (require 'yxl-elfeed-patch)
 (require 'helm)
+(require 'ivy)
 
 
 
@@ -97,6 +98,30 @@ The cursor is moved to the beginning of the first feed line."
 (add-hook 'elfeed-new-entry-hook #'score-elfeed-entry)
 
 
+
+(defun yxl-elfeed-rm-tag ()
+  "rm tag from entries
+If no prefix arg: select tags from database; otherwise asks for input"
+  (interactive)
+  (if current-prefix-arg
+      (elfeed-search-untag-all)
+      (ivy-read "tag to rm from entry: "
+            (elfeed-db-get-all-tags)
+            :action (lambda (x)
+                      (elfeed-search-untag-all (intern x)))
+            :caller 'yxl-elfeed-counsel-rm-tag)))
+
+(defun yxl-elfeed-add-tag ()
+  "add tag from entries
+If no prefix arg: select tags from database; otherwise asks for input"
+  (interactive)
+  (if current-prefix-arg
+      (elfeed-search-tag-all)
+    (ivy-read "tag to add to entry: "
+              (elfeed-db-get-all-tags)
+              :action (lambda (x)
+                        (elfeed-search-tag-all (intern x)))
+              :caller 'yxl-elfeed-counsel-rm-tag)))
 
 (defun yxl-elfeed-helm-search ()
   (interactive)
