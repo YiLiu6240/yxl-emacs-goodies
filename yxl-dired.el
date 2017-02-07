@@ -37,7 +37,7 @@
 
 
 
-(defun yxl-dired/open-in-desktop ()
+(defun yxl-dired-open-in-desktop ()
   "Show current file in desktop (OS's file manager).
 URL `http://ergoemacs.org/emacs/emacs_dired_open_file_in_ext_apps.html'
 Version 2015-11-30"
@@ -54,7 +54,7 @@ Version 2015-11-30"
                              "/usr/bin/xdg-open")))
       (start-process "" nil openFileProgram ".")))))
 
-(defun yxl-dired/toggle-dwim-target ()
+(defun yxl-dired-toggle-dwim-target ()
   "toggle the value of dired-dwim-target."
   (interactive)
   (if (equal dired-dwim-target t)
