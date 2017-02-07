@@ -16,6 +16,15 @@
    (t
     (yxl-frame-set frame-name))))
 
+(defun yxl-frame-terminal-init (&optional frame)
+  "Configs to setup when a terminal frame spawns:
+- set bg to be transparent;
+- remove menu bar;"
+  (when (not (display-graphic-p))
+    (progn
+      (set-face-background 'default "unspecified-bg" (selected-frame))
+      (menu-bar-mode -1))))
+
 
 
 (provide 'yxl-frame)
