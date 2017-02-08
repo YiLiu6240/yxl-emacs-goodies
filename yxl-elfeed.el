@@ -5,7 +5,9 @@
 
 
 
-(defvar yxl-elfeed-tag-alist nil "tag list for search.")
+(defvar yxl-elfeed-tag-alist nil
+  "Tag list for search. Refer to `yxl-elfeed-tag-builtin-alist' as an example
+of how tag list is constructed.")
 
 (defvar yxl-elfeed-tag-builtin-alist '(("relevant" . ("relevant" t))
                                        ("important" . ("important" t))
@@ -15,24 +17,27 @@
 
 (defvar yxl-elfeed-score-alist nil "list for keyword scores")
 
-(defface elfeed-search-star-title-face
-  `((t :foreground ,(face-attribute 'bold :foreground)))
+(defface elfeed-search-star-entry
+  `((t :weight bold :underline ,(face-attribute
+                                 'font-lock-function-name-face :foreground)))
   "Marks a starred Elfeed entry.")
 
-(push '(star elfeed-search-star-title-face) elfeed-search-face-alist)
+(push '(star elfeed-search-star-entry) elfeed-search-face-alist)
 
 ;; http://kitchingroup.cheme.cmu.edu/blog/category/elfeed/
-(defface elfeed-relevant-entry
-  `((t :background ,(face-attribute 'match :background)))
+(defface elfeed-search-relevant-entry
+  `((t :weight bold :underline ,(face-attribute
+                                 'font-lock-type-face :foreground)))
   "Marks a relevant elfeed entry.")
 
-(defface elfeed-important-entry
-  `((t :background ,(face-attribute 'lazy-highlight :background)))
+(defface elfeed-search-important-entry
+  `((t :weight bold :underline ,(face-attribute
+                                 'font-lock-variable-name-face :foreground)))
   "Marks a relevant elfeed entry.")
 
-(push '(relevant elfeed-relevant-entry) elfeed-search-face-alist)
+(push '(relevant elfeed-search-relevant-entry) elfeed-search-face-alist)
 
-(push '(important elfeed-important-entry) elfeed-search-face-alist)
+(push '(important elfeed-search-important-entry) elfeed-search-face-alist)
 
 
 
