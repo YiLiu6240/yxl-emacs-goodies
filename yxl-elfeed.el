@@ -7,6 +7,12 @@
 
 (defvar yxl-elfeed-tag-alist nil "tag list for search.")
 
+(defvar yxl-elfeed-tag-builtin-alist '(("relevant" . ("relevant" t))
+                                       ("important" . ("important" t))
+                                       ;; this one is not appended
+                                       ("star" . ("+star" nil)))
+  "Built-in tag alist.")
+
 (defvar yxl-elfeed-score-alist nil "list for keyword scores")
 
 (defface elfeed-search-star-title-face
@@ -127,18 +133,22 @@ If no prefix arg: select tags from database; otherwise asks for input"
   (interactive)
   (helm :sources
         `(,(helm-build-sync-source
-            "Helm Elfeed Search"
-            :candidates yxl-elfeed-tag-alist
-            ;; NOTE: use `apply' instead of `funcall' for passing arg list
-            :action (lambda (x) (apply #'elfeed--read-tag x)))
+               "User provided tags"
+             :candidates yxl-elfeed-tag-alist
+             ;; NOTE: use `apply' instead of `funcall' for passing arg list
+             :action (lambda (x) (apply #'elfeed--read-tag x)))
           ,(helm-build-sync-source
-            "Fallback"
-            :match (lambda (_candidate) t)
-            :candidates '(("Default filter" .
-                           (lambda (x) (elfeed--read-tag
-                                        (default-value 'elfeed-search-filter))))
-                          ("Manual filter" . (lambda (x) (elfeed--read-tag x))))
-            :action (lambda (x) (funcall x helm-pattern))))
+               "Built-in tags"
+             :candidates yxl-elfeed-tag-builtin-alist
+             :action (lambda (x) (apply #'elfeed--read-tag x)))
+          ,(helm-build-sync-source
+               "Fallback"
+             :match (lambda (_candidate) t)
+             :candidates '(("Default filter" .
+                            (lambda (x) (elfeed--read-tag
+                                         (default-value 'elfeed-search-filter))))
+                           ("Manual filter" . (lambda (x) (elfeed--read-tag x))))
+             :action (lambda (x) (funcall x helm-pattern))))
         :buffer "*Helm Elfeed Search*"))
 
 
