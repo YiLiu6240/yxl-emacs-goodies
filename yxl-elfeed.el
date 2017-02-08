@@ -152,6 +152,11 @@ If no prefix arg: select tags from database; otherwise asks for input"
              :candidates '(("Default filter" .
                             (lambda (x) (elfeed--read-tag
                                          (default-value 'elfeed-search-filter))))
+                           ("Default filter: append" .
+                            (lambda (x) (elfeed--read-tag
+                                         (concat (default-value 'elfeed-search-filter) " " x))))
+                           ("Current filter: append" .
+                            (lambda (x) (elfeed--read-tag (concat elfeed-search-filter " " x))))
                            ("Manual filter" . (lambda (x) (elfeed--read-tag x))))
              :action (lambda (x) (funcall x helm-pattern))))
         :buffer "*Helm Elfeed Search*"))
