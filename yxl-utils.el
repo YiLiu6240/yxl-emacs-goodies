@@ -77,6 +77,20 @@
 
 
 
+(defun insert-GBP-symbol ()
+  (interactive)
+  (insert "£"))
+
+(defun insert-EUR-symbol ()
+  (interactive)
+  (insert "€"))
+
+(defun insert-YEN-symbol ()
+  (interactive)
+  (insert "¥"))
+
+
+
 (define-minor-mode yxl-big-text-mode
   "Bigger text."
   :lighter ""
