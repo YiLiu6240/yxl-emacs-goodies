@@ -41,7 +41,7 @@
   "Return a string which is a concatenation of all elements of the list separated by spaces"
   (mapconcat '(lambda (obj) (format "%s" obj)) list " "))
 
-(defun dired-zip-files (zip-file)
+(defun yxl-dired-zip-files (zip-file)
   "Create an archive containing the marked files.
 Alternatively, run \"! zip foo.zip * <RET>\" for marked files in dired.
 source:
@@ -59,13 +59,7 @@ http://stackoverflow.com/questions/1431351/how-do-i-uncompress-unzip-within-emac
                '(lambda (filename)
                   (file-name-nondirectory filename))
                (dired-get-marked-files))))))
-
   (revert-buffer))
-
-  ;; remove the mark on all the files  "*" to " "
-  ;; (dired-change-marks 42 ?\040)
-  ;; mark zip file
-  ;; (dired-mark-files-regexp (filename-to-regexp zip-file))
 
 
 
@@ -173,7 +167,8 @@ Version 2015-11-30"
   ("M" dired-do-chmod "chmod")
   ("G" dired-do-chgrp "chgrp")
   ("O" dired-do-chown "chown")
-  ("Z" dired-do-compress "compress")
+  ("z" yxl-dired-zip-files "zip")
+  ("Z" dired-do-compress "compress/uncompress")
   ("_" xah-dired-rename-space-to-underscore "rename: _")
   ("-" xah-dired-rename-space-to-hyphen "rename: -")
   ("+" dired-create-directory "mkdir"))
