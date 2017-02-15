@@ -81,7 +81,7 @@
   "Bigger text."
   :lighter ""
   (if yxl-big-text-mode
-      (let ((scale 1.5))
+      (let ((scale 1.3))
         (text-scale-increase scale))
     (text-scale-set 0)))
 
