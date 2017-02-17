@@ -51,7 +51,7 @@ http://stackoverflow.com/questions/1431351/how-do-i-uncompress-unzip-within-emac
   ;; create the zip file
   (let ((zip-file (if (string-match ".zip$" zip-file) zip-file (concat zip-file ".zip"))))
     (shell-command
-     (concat "zip "
+     (concat "zip -r "
              zip-file
              " "
              (concat-string-list
