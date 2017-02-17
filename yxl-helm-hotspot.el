@@ -69,9 +69,9 @@ An assoc list with elements as (ALIAS . FILE-PATH).
                                 (find-file yxl-hhs-file-web-list)))
                              ("yxl-helm-hotspot" . yxl-helm-hotspot)
                              ("Google search" .
-                              (lambda (x)
+                              (lambda ()
                                 (let* ((google-base "http://www.google.com/search?q=%s")
-                                       (query-string (replace-regexp-in-string " " "\+" x))
+                                       (query-string (replace-regexp-in-string " " "\+" helm-pattern))
                                        (url-string (format google-base query-string)))
                                   (browse-url-generic url-string)))))
                :action (lambda (candidate) (funcall candidate)))))))
