@@ -72,7 +72,7 @@ Differ with `counsel-find-file' that this function preselect current file."
                                           nil
                                         find-file-hook)))
                   (find-file (expand-file-name x ivy--directory)))))
-            :preselect (file-name-nondirectory buffer-file-name)
+            :preselect (when buffer-file-name (file-name-nondirectory buffer-file-name))
             :require-match 'confirm-after-completion
             :history 'file-name-history
             :keymap counsel-find-file-map
