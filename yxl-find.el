@@ -54,4 +54,28 @@ to `counsel-find-file'."
         (find-file path)
       (counsel-find-file))))
 
+(defun yxl-find-file-counsel (&optional initial-input)
+  "Forward to `find-file'.
+When INITIAL-INPUT is non-nil, use it in the minibuffer during completion.
+
+Differ with `counsel-find-file' that this function preselect current file."
+  (interactive)
+  (ivy-read "Find file: " 'read-file-name-internal
+            :matcher #'counsel--find-file-matcher
+            :initial-input initial-input
+            :action
+            (lambda (x)
+              (with-ivy-window
+                (let ((find-file-hook (if (and
+                                           counsel-find-file-speedup-remote
+                                           (file-remote-p ivy--directory))
+                                          nil
+                                        find-file-hook)))
+                  (find-file (expand-file-name x ivy--directory)))))
+            :preselect (file-name-nondirectory buffer-file-name)
+            :require-match 'confirm-after-completion
+            :history 'file-name-history
+            :keymap counsel-find-file-map
+            :caller 'counsel-find-file))
+
 (provide 'yxl-find)
