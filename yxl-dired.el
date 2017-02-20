@@ -97,23 +97,6 @@ Version 2016-12-22"
 
 
 
-(defun yxl-dired-open-in-desktop ()
-  "Show current file in desktop (OS's file manager).
-URL `http://ergoemacs.org/emacs/emacs_dired_open_file_in_ext_apps.html'
-Version 2015-11-30"
-  (interactive)
-  (cond
-   ((string-equal system-type "windows-nt")
-    (w32-shell-execute "explore" (replace-regexp-in-string "/" "\\" default-directory t t)))
-   ((string-equal system-type "darwin") (shell-command "open ."))
-   ((string-equal system-type "gnu/linux")
-    (let (
-          (process-connection-type nil)
-          (openFileProgram (if (file-exists-p "/usr/bin/gvfs-open")
-                               "/usr/bin/gvfs-open"
-                             "/usr/bin/xdg-open")))
-      (start-process "" nil openFileProgram ".")))))
-
 (defun yxl-dired-toggle-dwim-target ()
   "toggle the value of dired-dwim-target."
   (interactive)
