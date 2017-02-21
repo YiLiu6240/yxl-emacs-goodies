@@ -85,4 +85,25 @@ Select the entire chain when at the root of the chain."
                                         #'evil-indent-plus--geq-or-empty-p))
     (goto-char begin)))
 
+(evil-define-motion yxl-evil-forward-paragraph (count)
+  "Move to the end of the COUNT-th next paragraph."
+  :jump t
+  :type exclusive
+  (let ((paragraph-start "\f\\|[    ]*$")
+        (paragraph-separate "[     \f]*$"))
+    (evil-signal-at-bob-or-eob count)
+    (evil-forward-end 'evil-paragraph count)
+    (unless (eobp) (forward-line))))
+
+(evil-define-motion yxl-evil-backward-paragraph (count)
+  "Move to the beginning of the COUNT-th previous paragraph."
+  :jump t
+  :type exclusive
+  (let ((paragraph-start "\f\\|[    ]*$")
+        (paragraph-separate "[     \f]*$"))
+    (evil-signal-at-bob-or-eob (- (or count 1)))
+    (unless (eobp) (forward-line))
+    (evil-backward-beginning 'evil-paragraph count)
+    (unless (bobp) (forward-line -1))))
+
 (provide 'yxl-evil)
