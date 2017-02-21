@@ -1,13 +1,9 @@
 (require 'evil)
 (require 'evil-indent-plus)
 
-
-
 (defun yxl-evil-execute-last-macro ()
   (interactive)
   (evil-execute-macro 1 last-kbd-macro))
-
-
 
 (evil-define-command yxl-evil-quit (&optional force)
   "Only delete window when there is multiple window open,
@@ -52,8 +48,6 @@ otherwise prompt message to confirm to delete frame."
   :type exclusive
   (evil-forward-chars "," (- (or count 1))))
 
-
-
 (defun evil-indent-plus--higher-indent-range (&optional point)
   "Return the point at the begin and end of the text block with greater
 indentation. If `point' is supplied and non-nil it will return the begin and
@@ -90,7 +84,5 @@ Select the entire chain when at the root of the chain."
     (setq begin (evil-indent-plus--seek begin -1 nil t
                                         #'evil-indent-plus--geq-or-empty-p))
     (goto-char begin)))
-
-
 
 (provide 'yxl-evil)

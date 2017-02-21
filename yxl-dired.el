@@ -2,13 +2,9 @@
 (require 'dired-quick-sort)
 (require 'ivy)
 
-
-
 (defun yxl-dired-popup ()
   (interactive)
   (yxl-find-file-popup default-directory))
-
-
 
 (defun yxl-dired--ivy-get-dired-buffer-list ()
   (delq nil
@@ -35,8 +31,6 @@
                       (find-file x))
             :caller 'yxl-dired-ivy-switch-buffer))
 
-
-
 (defun concat-string-list (list)
   "Return a string which is a concatenation of all elements of the list separated by spaces"
   (mapconcat '(lambda (obj) (format "%s" obj)) list " "))
@@ -60,8 +54,6 @@ http://stackoverflow.com/questions/1431351/how-do-i-uncompress-unzip-within-emac
                   (file-name-nondirectory filename))
                (dired-get-marked-files))))))
   (revert-buffer))
-
-
 
 (defun xah-dired-rename-space-to-underscore ()
   "In dired, rename current or marked files by replacing space to underscore _.
@@ -95,8 +87,6 @@ Version 2016-12-22"
         (revert-buffer))
     (user-error "Not in dired")))
 
-
-
 (defun yxl-dired-toggle-dwim-target ()
   "toggle the value of dired-dwim-target."
   (interactive)
@@ -104,8 +94,6 @@ Version 2016-12-22"
       (setq dired-dwim-target nil)
     (setq dired-dwim-target t))
   (message "dired-dwim-target: %s" dired-dwim-target))
-
-
 
 (defhydra yxl-dired-hydra-common (:color blue :hint nil)
   ("." nil "quit"))
@@ -176,7 +164,5 @@ Version 2016-12-22"
    (if dired-dwim-target
        "[X]" "[ ]"))
   ("r" dired-toggle-read-only :color blue))
-
-
 
 (provide 'yxl-dired)

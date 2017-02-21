@@ -1,8 +1,6 @@
 (require 'ivy)
 (require 'yxl-dired)
 
-
-
 (defun yxl-open-in-terminal--iterm ()
   "Go to present working dir and focus iterm.
 
@@ -84,7 +82,5 @@ URL `http://ergoemacs.org/emacs/emacs_dired_open_file_in_ext_apps.html'
             :action (lambda (x)
                       (funcall (cdr x)))
             :caller 'yxl-open-file-external))
-
-
 
 (provide 'yxl-open)

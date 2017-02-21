@@ -2,12 +2,8 @@
 (require 'yxl-find)
 (require 'yxl-org-patch)
 
-
-
 (defvar yxl-org-task-files nil
   "org task files")
-
-
 
 (define-minor-mode yxl-org-task-mode
   "Features for org buffers that are essentially todo list."
@@ -43,8 +39,6 @@ then turn on `yxl-org-task-mode'"
   (split-window-right-and-focus)
   (org-todo-list))
 
-
-
 (defun yxl-org-agenda-format-date-aligned (date)
   "Format a DATE string for display in the daily/weekly agenda, or timeline.
 This function makes sure that dates are aligned for easy reading."
@@ -68,8 +62,6 @@ This function makes sure that dates are aligned for easy reading."
     (format "%4d-%02d-%02d %s %s"
             year month day dayname weekstring)))
 
-
-
 (defun yxl-org--get-visible-buffers ()
   (let* ((cur-mode 'org-mode))
     (delq nil
@@ -89,7 +81,5 @@ This function makes sure that dates are aligned for easy reading."
     (let* ((visible-org-files (yxl-org--get-visible-buffers))
            (org-refile-targets visible-org-files))
       (call-interactively #'org-refile))))
-
-
 
 (provide 'yxl-org)

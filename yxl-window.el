@@ -2,7 +2,6 @@
   "preferred line width for a window, useful when setting window centering")
 
 (defvar yxl-window-stored-layout nil)
-
 
 (defun yxl-window-popwin-width ()
   "calculate the size of the popwin window, base on current frame width"
@@ -44,8 +43,6 @@
   (let* ((main-height (round (* (yxl-window-get-ratio) (frame-height)))))
     (evil-resize-window main-height nil)))
 
-
-
 (defun yxl-window-custom-layout1 ()
   "window layout 1 | 2/3"
   (interactive)
@@ -85,8 +82,6 @@
       (evil-window-down 1)
       (evil-resize-window main-height nil))))
 
-
-
 ;; NOTE: split window logic:
 ;; default: split windows downward/rightward and make the new split window size
 ;;          the smaller part of the golden ratio of the orig window
@@ -120,8 +115,6 @@
                                 (window-total-width))))))
     (split-window-right win-size)))
 
-
-
 (defun yxl-window-change-width (width)
   (interactive "nwindow width: ")
   (evil-resize-window width t))
@@ -131,8 +124,6 @@
   (interactive)
   (let* ((margin (max 0 (/ (- (window-width) yxl-line-width) 2))))
     (set-window-margins nil margin margin)))
-
-
 
 (defun yxl-window-get-buffer-previous-window ()
   "open in the current window the buffer in previous window."
@@ -151,8 +142,6 @@
     (window-state-put yxl-window-stored-layout (frame-root-window))
     (message "load stored window layout.")))
 
-
-
 ;; support vertical split at the moment
 (defun yxl-window-popwin (buffer &optional width position)
   (unless width (setq width 0.3))
@@ -160,7 +149,5 @@
   (popwin:create-popup-window width position t)
   (select-window (get-buffer-window " *popwin-dummy*"))
   (switch-to-buffer (get-buffer buffer)))
-
-
 
 (provide 'yxl-window)

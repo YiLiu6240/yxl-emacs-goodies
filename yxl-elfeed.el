@@ -3,8 +3,6 @@
 (require 'helm)
 (require 'ivy)
 
-
-
 (defvar yxl-elfeed-tag-alist nil
   "Tag list for search. Refer to `yxl-elfeed-tag-builtin-alist' as an example
 of how tag list is constructed.")
@@ -39,8 +37,6 @@ of how tag list is constructed.")
 
 (push '(important elfeed-search-important-entry) elfeed-search-face-alist)
 
-
-
 (defun zilong/elfeed-mark-all-as-read ()
   (interactive)
   (mark-whole-buffer)
@@ -64,8 +60,6 @@ of how tag list is constructed.")
 
 (defalias 'elfeed-toggle-star
   (elfeed-expose #'elfeed-search-toggle-all 'star))
-
-
 
 ;; http://heikkil.github.io/blog/2015/02/24/custom-elfeed-filter-functions/
 (defun elfeed--read-tag (filter &optional append)
@@ -107,8 +101,6 @@ The cursor is moved to the beginning of the first feed line."
     entry))
 
 (add-hook 'elfeed-new-entry-hook #'score-elfeed-entry)
-
-
 
 (defun yxl-elfeed-rm-tag ()
   "rm tag from entries
@@ -160,7 +152,5 @@ If no prefix arg: select tags from database; otherwise asks for input"
                            ("Manual filter" . (lambda (x) (elfeed--read-tag x))))
              :action (lambda (x) (funcall x helm-pattern))))
         :buffer "*Helm Elfeed Search*"))
-
-
 
 (provide 'yxl-elfeed)

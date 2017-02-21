@@ -1,7 +1,5 @@
 (require 'helm)
 
-
-
 (defvar yxl-hhs-org-files nil
   "org files")
 
@@ -16,8 +14,6 @@
 
 (defvar yxl-hhs-file-reading-list-webpages nil
   "local files")
-
-
 
 (defun yxl-helm-org-files ()
   "
@@ -130,7 +126,5 @@ reading list.
             :action (helm-make-actions
                      "open" (lambda (x) (funcall x)))))
         :buffer "*helm yxl hotspot*"))
-
-
 
 (provide 'yxl-helm-hotspot)

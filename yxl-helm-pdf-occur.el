@@ -4,16 +4,12 @@
 (require 'helm)
 (require 'pdf-tools)
 
-
-
 (setq yxl-hpo-preset-list
       '("previous\|traditional\|critici\|drawback"
         "hypothes\|propose\|question\|problem\|attempt\|issue\|approach\|method"
         "result\|stat\|result\|show\|support"
         "regulat\|supervis\|prudential\|systemic\|policy"
         "contagion\|spillover\|shock"))
-
-
 
 (setq yxl-hpo--sources-preset
       '((name . "Preset Keywords")
@@ -35,8 +31,6 @@
                               :action (lambda (cand)
                                         (pdf-occur helm-pattern t))))
 
-
-
 (defun yxl-pdf-occur-all-keywords ()
   (interactive)
   (pdf-occur (mapconcat 'identity yxl-hpo-preset-list "\|") t))
@@ -55,7 +49,5 @@
                    yxl-hpo--sources-all
                    yxl-hpo--sources-fallback)
         :buffer "*helm pdf occur"))
-
-
 
 (provide 'yxl-helm-pdf-occur)

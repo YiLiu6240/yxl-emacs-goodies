@@ -102,6 +102,4 @@
             (insert (propertize title 'face title-faces 'kbd-help title)))
         (insert (propertize title 'face title-faces 'kbd-help title))))))
 
-
-
 (provide 'yxl-elfeed-patch)

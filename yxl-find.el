@@ -2,8 +2,6 @@
 (require 'counsel)
 (require 'yxl-open)
 
-
-
 (defun yxl-find-file-popup (file)
   (interactive)
   (let ((pop-width (yxl-window-popwin-width)))

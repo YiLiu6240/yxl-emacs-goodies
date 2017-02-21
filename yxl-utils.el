@@ -3,8 +3,6 @@
 (require 'yxl-buffer)
 (require 'yxl-find)
 
-
-
 (defun yxl-append-to-scratch (&optional file)
   "receive input text and append this text to scratch"
   (interactive)
@@ -27,8 +25,6 @@
     (if relative-file-name
         (message (kill-new relative-file-name))
       (error "Buffer not visiting a file"))))
-
-
 
 (defun yxl-round-nb-in-region ()
   "http://stackoverflow.com/questions/23636226/how-to-round-all-the-numbers-in-a-region"
@@ -73,8 +69,6 @@
           (evil-append 1))
       (insert (shell-command-to-string cli-cmd)))))
 
-
-
 (defun insert-GBP-symbol ()
   (interactive)
   (insert "£"))
@@ -86,8 +80,6 @@
 (defun insert-YEN-symbol ()
   (interactive)
   (insert "¥"))
-
-
 
 (define-minor-mode yxl-big-text-mode
   "Bigger text."
@@ -103,7 +95,5 @@
   (if (display-graphic-p)
       (message "not a terminal client")
     (set-face-background 'default "unspecified-bg" (selected-frame))))
-
-
 
 (provide 'yxl-utils)

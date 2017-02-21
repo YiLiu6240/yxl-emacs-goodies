@@ -1,7 +1,5 @@
 (require 'ess-site)
 
-
-
 (defun yxl-ess-rdired-str ()
   (interactive)
   (let ((objname (ess-rdired-object)))
@@ -21,7 +19,6 @@
   (interactive "sR function to execute: ")
   (yxl-ess-execute-func-at-point r-func))
 
-
 ;; my own custom funcs in R
 
 (defun yxl-ess-exec-lsos ()
@@ -33,7 +30,5 @@
   "invoke lsos function, this function needs to be in environment"
   (interactive)
   (ess-execute "lsdf()"))
-
-
 
 (provide 'yxl-ess)

@@ -16,6 +16,4 @@
    (t
     (yxl-frame-set frame-name))))
 
-
-
 (provide 'yxl-frame)

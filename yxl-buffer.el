@@ -1,7 +1,5 @@
 (require 'ivy)
 
-
-
 (defvar yxl-buffer-stored-name nil)
 
 (defvar yxl-buffer-inherit-whitelist '(latex-mode
@@ -15,8 +13,6 @@
                                            (inferior-ess-mode . R-mode)))
 
 (defvar yxl-buffer-stored-name nil)
-
-
 
 (defun yxl-buffer--translate-major-mode ()
   "Check if current `major-mode' is in `yxl-buffer-inherit-special-alist',
@@ -40,8 +36,6 @@ of the previous buffer, if the major-mode is listed in
         (funcall curr-mode)
       (funcall initial-major-mode))))
 
-
-
 (defun yxl-buffer-store-name ()
   (interactive)
   (setq yxl-buffer-stored-name (buffer-name))
@@ -51,8 +45,6 @@ of the previous buffer, if the major-mode is listed in
   (interactive)
   (set-window-buffer (selected-window) yxl-buffer-stored-name)
   (message "switch to stored buffer: %s" yxl-buffer-stored-name))
-
-
 
 (defun yxl-buffer--ivy-get-buffer-list-with-mode (cur-mode)
   (delq nil
@@ -71,5 +63,4 @@ of the previous buffer, if the major-mode is listed in
                         (switch-to-buffer x))
               :caller 'yxl-buffer-switch-same-major-mode)))
 
-
 (provide 'yxl-buffer)
