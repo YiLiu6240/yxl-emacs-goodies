@@ -62,12 +62,4 @@ Use `ivy-pop-view' to delete any item from `ivy-views'."
               :keymap ivy-switch-buffer-map
               :caller 'ivy-switch-buffer)))
 
-(defhydra yxl-ivy-views-hydra (:color blue :hint nil :columns 4)
-  ("s" yxl-ivy-views-switch "ivy-views: switch")
-  ("S" yxl-ivy-views-save "ivy-views: save")
-  ("L" yxl-ivy-views-load "ivy-views: load")
-  ("p" yxl-ivy-push-view "ivy-views: push")
-  ("P" ivy-pop-view "ivy-views: pop")
-  ("K" (setq ivy-views nil) "ivy-views: clean"))
-
 (provide 'yxl-ivy-views)
