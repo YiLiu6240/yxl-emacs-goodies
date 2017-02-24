@@ -30,8 +30,8 @@ Version 2015-12-10"
 (defun yxl-open-in-terminal ()
   "Open current dir in terminal.
 - windows: WIP
-- macOS: iterm
-- linux: WIP"
+- macOS: iterm (need a running iterm instance; and dont manually change path in new profile)
+- linux: default terminal"
   (interactive)
   (cond
    ((string-equal system-type "windows-nt")
@@ -66,21 +66,24 @@ URL `http://ergoemacs.org/emacs/emacs_dired_open_file_in_ext_apps.html'
       ;;       and it opens default program instead of a browser when current file
       ;;       is not default to open in a browser.
       ;;       Might need a disgustingly complex way to invoke browser
-      '(("gvim" . (lambda () (shell-command (format "gvim \"%s\"" buffer-file-name))))
-        ("subl" . (lambda () (shell-command (format "subl \"%s\"" buffer-file-name))))
-        ("atom" . (lambda () (shell-command (format "atom \"%s\"" buffer-file-name))))
-        ("desktop" . yxl-open-in-desktop)
-        ("browser" . (lambda () (message "WIP!")))
-        ("directory in terminal" . yxl-open-in-terminal)))
+      '(("gvim" . (lambda (x) (shell-command (format "gvim \"%s\"" x))))
+        ("subl" . (lambda (x) (shell-command (format "subl \"%s\"" x))))
+        ("atom" . (lambda (x) (shell-command (format "atom \"%s\"" x))))
+        ("desktop" . (lambda (x) (yxl-open-in-desktop)))
+        ("default" . (lambda (x) (browse-url x)))
+        ("directory in terminal" . (lambda (x) (yxl-open-in-terminal)))))
 
 (defun yxl-open-file-external ()
   "open current file in an external command as defined in
 `yxl-open-file-external-commands'."
   (interactive)
-  (ivy-read "Open in external applications:"
+  (let ((file-path (if (derived-mode-p 'dired-mode)
+                       (dired-get-file-for-visit)
+                     buffer-file-name)))
+   (ivy-read "Open in external applications:"
             yxl-open-file-external-commands
             :action (lambda (x)
-                      (funcall (cdr x)))
-            :caller 'yxl-open-file-external))
+                      (funcall (cdr x) file-path))
+            :caller 'yxl-open-file-external)))
 
 (provide 'yxl-open)
