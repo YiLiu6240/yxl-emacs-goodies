@@ -20,23 +20,10 @@
   (interactive "sR function to execute: ")
   (yxl-ess-execute-func-at-point r-func))
 
-;; my own custom funcs in R
-;; TODO: these functions should be defined from emacs?
-
-(defun yxl-ess-exec-lsos ()
-  "invoke lsos function, this function needs to be in environment"
-  (interactive)
-  (ess-execute "lsos()"))
-
-(defun yxl-ess-exec-lsdf ()
-  "invoke lsos function, this function needs to be in environment"
-  (interactive)
-  (ess-execute "lsdf()"))
-
 (setq yxl-ess-useful-funcs
       '(("sessionInfo() -- info on loaded pacakges" . "sessionInfo()")
-        ("lsdf() -- list current dataframes" . "lsdf()")
-        ("lsos()" . "lsos")))
+        ("lsdf() -- list current dataframes -- user-defined" . "lsdf()")
+        ("lsos() -- list object by size -- user-defined" . "lsos()")))
 
 (defun yxl-ess-call-useful-funcs ()
   (interactive)
@@ -44,6 +31,5 @@
             yxl-ess-useful-funcs
             :action (lambda (x) (ess-execute (cdr x)))
             :caller 'yxl-ess-call-useful-funcs))
-
 
 (provide 'yxl-ess)
