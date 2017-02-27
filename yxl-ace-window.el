@@ -26,7 +26,7 @@
           (delete-window orig-window))
       (error "Got a dead window %S" new-window))))
 
-(defun yxl-ace-window--pull-window (new-window)
+(defun yxl-ace-window--fetch-window (new-window)
   (let ((new-frame (window-frame new-window))
         (orig-window (selected-window))
         (orig-buffer (window-buffer (selected-window)))
@@ -39,7 +39,7 @@
           (set-window-buffer orig-window new-buffer))
       (error "Got a dead window %S" new-window))))
 
-(defun yxl-ace-window--pull-window-and-delete (new-window)
+(defun yxl-ace-window--fetch-window-and-delete (new-window)
   (let ((new-frame (window-frame new-window))
         (orig-window (selected-window))
         (orig-buffer (window-buffer (selected-window)))
@@ -61,12 +61,12 @@
     (aw-select " Ace - push current window to destination"
                #'yxl-ace-window--push-window)))
 
-(defun yxl-ace-window-pull-window ()
+(defun yxl-ace-window-fetch-window ()
   (interactive)
   (if current-prefix-arg
       (aw-select " Ace - push current window to destination"
-                 #'yxl-ace-window--pull-window-and-delete)
+                 #'yxl-ace-window--fetch-window-and-delete)
     (aw-select " Ace - push current window to destination"
-               #'yxl-ace-window--pull-window)))
+               #'yxl-ace-window--fetch-window)))
 
 (provide 'yxl-ace-window)
