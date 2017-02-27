@@ -50,4 +50,19 @@
   (let ((objname (ess-rdired-object)))
     (ess-execute (concat "str(" objname ")\n"))))
 
+(defun yxl-ess-open-rstudio ()
+  (interactive)
+  ;; https://support.rstudio.com/hc/en-us/articles/200711843-Working-Directories-and-Workspaces
+  (let ((path (if (and (eq major-mode 'ess-mode)
+                       buffer-file-name)
+                  buffer-file-name
+                default-directory)))
+    (cond
+     ((string-equal system-type "windows-nt")
+      (message "not implemented"))
+     ((string-equal system-type "darwin")
+      (shell-command (format "open -a Rstudio %s" path)))
+     ((string-equal system-type "gnu/linux")
+      (shell-command (format "rstudio %s" path))))))
+
 (provide 'yxl-ess)
