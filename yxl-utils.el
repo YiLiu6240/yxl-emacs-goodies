@@ -1,5 +1,4 @@
 (require 'yxl-frame)
-(require 'yxl-window)
 (require 'yxl-buffer)
 (require 'yxl-find)
 
