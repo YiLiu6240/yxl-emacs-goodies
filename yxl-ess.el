@@ -10,7 +10,8 @@
   "list of useful R functions to execute")
 
 (defvar yxl-ess-useful-atpoint-funcs
-  '(("str()" . "str")
+  '(("print()" . "print")
+    ("str()" . "str")
     ("dplyr::summarize()" . "dplyr::summarize")
     ("summary()" . "summary")
     ("dim()" . "dim")
