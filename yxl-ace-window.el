@@ -1,4 +1,5 @@
 (require 'ace-window)
+(require 'ivy)
 
 (defun yxl-ace-window--push-window (new-window)
   (let ((new-frame (window-frame new-window))
@@ -85,5 +86,19 @@
   (interactive)
   (aw-select " Ace - open current file in destination window"
              #'yxl-ace-window--dired-open))
+
+(defun yxl-ace-window-open (file)
+  (interactive)
+  (aw-select " Ace - open current file in destination window"
+             (lambda (new-window)
+               (let ((new-frame (window-frame new-window)))
+                 (when (and (frame-live-p new-frame)
+                            (not (eq new-frame (selected-frame))))
+                   (select-frame-set-input-focus new-frame))
+                 (if (window-live-p new-window)
+                     (progn
+                       (select-window new-window)
+                       (find-file file))
+                   (error "Got a dead window %S" new-window))))))
 
 (provide 'yxl-ace-window)
