@@ -101,4 +101,36 @@
                        (find-file file))
                    (error "Got a dead window %S" new-window))))))
 
+(defun yxl-ace-window-open-vert (file)
+  (interactive)
+  (aw-select " Ace - open current file in destination window"
+             (lambda (new-window)
+               (let ((new-frame (window-frame new-window)))
+                 (when (and (frame-live-p new-frame)
+                            (not (eq new-frame (selected-frame))))
+                   (select-frame-set-input-focus new-frame))
+                 (if (window-live-p new-window)
+                     (progn
+                       (select-window new-window)
+                       (split-window-right)
+                       (windmove-right)
+                       (find-file file))
+                   (error "Got a dead window %S" new-window))))))
+
+(defun yxl-ace-window-open-horz (file)
+  (interactive)
+  (aw-select " Ace - open current file in destination window"
+             (lambda (new-window)
+               (let ((new-frame (window-frame new-window)))
+                 (when (and (frame-live-p new-frame)
+                            (not (eq new-frame (selected-frame))))
+                   (select-frame-set-input-focus new-frame))
+                 (if (window-live-p new-window)
+                     (progn
+                       (select-window new-window)
+                       (split-window-below)
+                       (windmove-down)
+                       (find-file file))
+                   (error "Got a dead window %S" new-window))))))
+
 (provide 'yxl-ace-window)
