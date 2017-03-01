@@ -3,10 +3,6 @@
 (require 'helm)
 (require 'ivy)
 
-(defvar yxl-elfeed-tag-alist nil
-  "Tag list for search. Refer to `yxl-elfeed-tag-builtin-alist' as an example
-of how tag list is constructed.")
-
 (defvar yxl-elfeed-tag-builtin-alist '(("relevant" . ("relevant" t))
                                        ("important" . ("important" t))
                                        ;; this one is not appended
@@ -130,10 +126,14 @@ If no prefix arg: select tags from database; otherwise asks for input"
   (interactive)
   (helm :sources
         `(,(helm-build-sync-source
-               "User provided tags"
-             :candidates yxl-elfeed-tag-alist
-             ;; NOTE: use `apply' instead of `funcall' for passing arg list
-             :action (lambda (x) (apply #'elfeed--read-tag x)))
+               "Tags in database"
+             :candidates (elfeed-db-get-all-tags)
+             ;; NOTE: add t to append
+             :action (helm-make-actions
+                      "append to default filter" (lambda (x)
+                                                   (elfeed--read-tag x t))
+                      "replace default filter" (lambda (x)
+                                                 (elfeed--read-tag x))))
           ,(helm-build-sync-source
                "Built-in tags"
              :candidates yxl-elfeed-tag-builtin-alist
