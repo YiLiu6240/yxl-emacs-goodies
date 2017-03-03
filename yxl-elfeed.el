@@ -122,12 +122,14 @@ If no prefix arg: select tags from database; otherwise asks for input"
                         (elfeed-search-tag-all (intern x)))
               :caller 'yxl-elfeed-counsel-rm-tag)))
 
+(setq yxl-elfeed-db-tags (elfeed-db-get-all-tags))
+
 (defun yxl-elfeed-helm-search ()
   (interactive)
   (helm :sources
         `(,(helm-build-sync-source
                "Tags in database"
-             :candidates (elfeed-db-get-all-tags)
+             :candidates yxl-elfeed-db-tags
              ;; NOTE: add t to append
              :action (helm-make-actions
                       "append to default filter" (lambda (x)
