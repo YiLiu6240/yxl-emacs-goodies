@@ -115,7 +115,8 @@ reading list.
         ("rss" . elfeed)
         ("helm-github-stars" . helm-github-stars)
         ("helm-show-kill-ring" . helm-show-kill-ring)
-        ("helm-all-mark-rings" . helm-all-mark-rings)))
+        ("helm-all-mark-rings" . helm-all-mark-rings)
+        ("helm-chrome-bookmarks" . helm-chrome-bookmarks)))
 
 (defun yxl-helm-hotspot ()
   (interactive)
