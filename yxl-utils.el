@@ -1,6 +1,7 @@
 (require 'yxl-frame)
 (require 'yxl-buffer)
 (require 'yxl-find)
+(require 'shell-pop)
 
 (defun yxl-append-to-scratch (&optional file)
   "receive input text and append this text to scratch"
@@ -94,5 +95,17 @@
   (if (display-graphic-p)
       (message "not a terminal client")
     (set-face-background 'default "unspecified-bg" (selected-frame))))
+
+(defun yxl-shell-invoke ()
+  "A poor man's shell-pop, till shell-pop's bugs are fixed."
+  (interactive)
+  (let ((cwd (replace-regexp-in-string "\\\\" "/" default-directory)))
+    (if (eq system-type 'windows-nt)
+        (progn
+          (eshell)
+          (shell-pop--cd-to-cwd-eshell cwd))
+      (progn
+        (shell)
+        (shell-pop--cd-to-cwd-shell cwd)))))
 
 (provide 'yxl-utils)
