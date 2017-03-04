@@ -5,8 +5,9 @@
 ;; add optional arguments
 (defvar yxl-ess-useful-funcs
   '(("sessionInfo() -- info on loaded pacakges" . "sessionInfo()")
-    ("lsdf() -- list current dataframes -- user-defined" . "lsdf()")
-    ("lsos() -- list object by size -- user-defined" . "lsos()"))
+    ("yxlRutils::qq() - quick quit" . "yxlRutils::qq()")
+    ("yxlRutils::lsdf() -- list current dataframes" . "yxlRutils::lsdf()")
+    ("yxlRutils::lsos() -- list object by size" . "yxlRutils::lsos()"))
   "list of useful R functions to execute")
 
 (defvar yxl-ess-useful-atpoint-funcs
