@@ -96,10 +96,10 @@ reading list.
           ,(helm-build-sync-source
                "Fallback"
              :match (lambda (_candidate) t)  ;; persistent
-             :candidates '(("open: local" .
+             :candidates '(("edit: local" .
                             (lambda ()
                               (find-file yxl-hhs-file-reading-list-local)))
-                           ("open: webpages" .
+                           ("edit: webpages" .
                             (lambda ()
                               (find-file yxl-hhs-file-reading-list-webpages)))
                            ("yxl-helm-hotspot" . yxl-helm-hotspot))
