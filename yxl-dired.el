@@ -1,6 +1,7 @@
 (require 'dired)
 (require 'dired-quick-sort)
 (require 'ivy)
+(require 'yxl-ace-window)
 
 (defun yxl-dired-popup ()
   (interactive)
@@ -94,6 +95,21 @@ Version 2016-12-22"
       (setq dired-dwim-target nil)
     (setq dired-dwim-target t))
   (message "dired-dwim-target: %s" dired-dwim-target))
+
+(defun yxl-dired-open-aw ()
+  (interactive)
+  (let ((file (dired-get-file-for-visit)))
+    (yxl-ace-window-open file)))
+
+(defun yxl-dired-open-aw-vert ()
+  (interactive)
+  (let ((file (dired-get-file-for-visit)))
+    (yxl-ace-window-open-vert file)))
+
+(defun yxl-dired-open-aw-horz ()
+  (interactive)
+  (let ((file (dired-get-file-for-visit)))
+    (yxl-ace-window-open-horz file)))
 
 (defhydra yxl-dired-hydra-common (:color blue :hint nil)
   ("." nil "quit"))

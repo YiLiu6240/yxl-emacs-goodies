@@ -70,23 +70,6 @@
     (aw-select " Ace - push current window to destination"
                #'yxl-ace-window--fetch-window)))
 
-(defun yxl-ace-window--dired-open (new-window)
-  (let ((new-frame (window-frame new-window))
-        (new-file (dired-get-file-for-visit)))
-    (when (and (frame-live-p new-frame)
-               (not (eq new-frame (selected-frame))))
-      (select-frame-set-input-focus new-frame))
-    (if (window-live-p new-window)
-        (progn
-          (select-window new-window)
-          (find-file new-file))
-      (error "Got a dead window %S" new-window))))
-
-(defun yxl-ace-window-dired-open ()
-  (interactive)
-  (aw-select " Ace - open current file in destination window"
-             #'yxl-ace-window--dired-open))
-
 (defun yxl-ace-window-open (file)
   (interactive)
   (aw-select " Ace - open current file in destination window"
