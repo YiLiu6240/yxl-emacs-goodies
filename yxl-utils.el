@@ -100,14 +100,21 @@
 (defun yxl-shell-invoke ()
   "A poor man's shell-pop, till shell-pop's bugs are fixed."
   (interactive)
-  (let ((cwd (replace-regexp-in-string "\\\\" "/" default-directory)))
+  (let ((cwd default-directory))
     (if (eq system-type 'windows-nt)
         (progn
           (eshell)
           (shell-pop--cd-to-cwd-eshell cwd))
       (progn
         (shell)
-        (shell-pop--cd-to-cwd-shell cwd)))))
+        (funcall (lambda (cwd)
+                   (goto-char (point-max))
+                   (comint-kill-input)
+                   (insert (concat "cd " cwd))
+                   (let ((comint-process-echoes t))
+                     (comint-send-input))
+                   (recenter 0))
+                 cwd)))))
 
 (defvar yxl-projectile-todo-global nil
   "Global / fallback todo file, usually your org file.")
