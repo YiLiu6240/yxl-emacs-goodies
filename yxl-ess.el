@@ -13,7 +13,7 @@
 (defvar yxl-ess-useful-atpoint-funcs
   '(("print()" . "print")
     ("str()" . "str")
-    ("dplyr::summarize()" . "dplyr::summarize")
+    ("dplyr::glimpse()" . "dplyr::glimpse")
     ("summary()" . "summary")
     ("dim()" . "dim")
     ("dimnames()" . "dimnames")
