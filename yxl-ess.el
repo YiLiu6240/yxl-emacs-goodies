@@ -64,8 +64,8 @@
      ((string-equal system-type "windows-nt")
       (message "not implemented"))
      ((string-equal system-type "darwin")
-      (shell-command (format "open -a Rstudio %s" path)))
+      (shell-command (format "open -a Rstudio %s &" path)))
      ((string-equal system-type "gnu/linux")
-      (shell-command (format "rstudio %s" path))))))
+      (shell-command (format "rstudio %s &" path))))))
 
 (provide 'yxl-ess)
