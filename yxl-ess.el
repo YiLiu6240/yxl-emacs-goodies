@@ -53,6 +53,25 @@
   (let ((objname (ess-rdired-object)))
     (ess-execute (concat "str(" objname ")\n"))))
 
+(defun yxl-ess-rdired-call-atpoint-useful-funcs ()
+  (interactive)
+  (ivy-read "Call useful funcs:"
+            yxl-ess-useful-atpoint-funcs
+            :action (lambda (x)
+                      (let ((objname (ess-rdired-object)))
+                        (ess-execute (concat (cdr x) "(" objname ")\n"))))
+            :caller 'yxl-ess-rdired-call-atpoint-useful-funcs))
+
+(defun yxl-ess-rdired-call-atpoint-useful-funcs-pop ()
+  (interactive)
+  (ivy-read "Call useful funcs:"
+            yxl-ess-useful-atpoint-funcs
+            :action (lambda (x)
+                      (let ((objname (ess-rdired-object))
+                            (ess-execute-in-process-buffer nil))
+                        (ess-execute (concat (cdr x) "(" objname ")\n"))))
+            :caller 'yxl-ess-rdired-call-atpoint-useful-funcs))
+
 (defun yxl-ess-open-rstudio ()
   (interactive)
   ;; https://support.rstudio.com/hc/en-us/articles/200711843-Working-Directories-and-Workspaces
