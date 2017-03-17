@@ -73,13 +73,14 @@ URL `http://ergoemacs.org/emacs/emacs_dired_open_file_in_ext_apps.html'
         ("default" . (lambda (x) (browse-url x)))
         ("directory in terminal" . (lambda (x) (yxl-open-in-terminal)))))
 
-(defun yxl-open-file-external ()
+(defun yxl-open-file-external (&optional file)
   "open current file in an external command as defined in
 `yxl-open-file-external-commands'."
   (interactive)
-  (let ((file-path (if (derived-mode-p 'dired-mode)
-                       (dired-get-file-for-visit)
-                     buffer-file-name)))
+  (let ((file-path (or file
+                       (if (derived-mode-p 'dired-mode)
+                           (dired-get-file-for-visit)
+                         buffer-file-name))))
    (ivy-read "Open in external applications:"
             yxl-open-file-external-commands
             :action (lambda (x)
