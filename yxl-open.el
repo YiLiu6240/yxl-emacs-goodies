@@ -66,11 +66,11 @@ URL `http://ergoemacs.org/emacs/emacs_dired_open_file_in_ext_apps.html'
       ;;       and it opens default program instead of a browser when current file
       ;;       is not default to open in a browser.
       ;;       Might need a disgustingly complex way to invoke browser
-      '(("gvim" . (lambda (x) (shell-command (format "gvim \"%s\"" x))))
+      '(("default" . (lambda (x) (browse-url x)))
+        ("gvim" . (lambda (x) (shell-command (format "gvim \"%s\"" x))))
         ("subl" . (lambda (x) (shell-command (format "subl \"%s\"" x))))
         ("atom" . (lambda (x) (shell-command (format "atom \"%s\"" x))))
         ("desktop" . (lambda (x) (yxl-open-in-desktop)))
-        ("default" . (lambda (x) (browse-url x)))
         ("directory in terminal" . (lambda (x) (yxl-open-in-terminal)))))
 
 (defun yxl-open-file-external (&optional file)
