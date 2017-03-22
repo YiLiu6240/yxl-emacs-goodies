@@ -2,7 +2,6 @@
 (require 'yxl-buffer)
 (require 'yxl-find)
 (require 'shell-pop)
-(require 'projectile)
 
 (defun yxl-append-to-scratch (&optional file)
   "receive input text and append this text to scratch"
@@ -116,18 +115,4 @@
                    (recenter 0))
                  cwd)))))
 
-(defvar yxl-projectile-todo-global nil
-  "Global / fallback todo file, usually your org file.")
-
-(defvar yxl-projectile-todo-name "TODO.org"
-  "Name of the todo file.")
-
-(defun yxl-projectile-todo-popup ()
-  "Popup the project todo file."
-  (interactive)
-  (if (or current-prefix-arg
-          (eq nil (projectile-project-p)))
-      (yxl-find-file-popup yxl-projectile-todo-global)
-    (yxl-find-file-popup (concat (projectile-project-root)
-                                 yxl-projectile-todo-name))))
 (provide 'yxl-utils)
