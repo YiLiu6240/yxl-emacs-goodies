@@ -45,7 +45,7 @@
               ("todo" . (lambda () (yxl-project-find-file yxl-project-todo-file)))
               ("note" . (lambda () (yxl-project-find-file yxl-project-note-file)))
               ("make" . (lambda () (yxl-project-find-file yxl-project-make-file)))
-              ("bib" . (lambda () (yxl-project-find yxl-project-bib-file))))
+              ("bib"  . (lambda () (yxl-project-find-file yxl-project-bib-file))))
             :action (lambda (x) (funcall (cdr x)))
             :caller 'yxl-project-select))
 
