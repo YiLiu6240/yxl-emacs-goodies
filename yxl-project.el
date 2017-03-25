@@ -3,6 +3,9 @@
 (require 'projectile)
 (require 'helm-bibtex)
 
+(defvar yxl-project-list nil
+  "List of projects to be fed into ivy")
+
 (defvar yxl-project-todo-global nil
   "Global / fallback todo file, usually your org file.")
 
@@ -18,6 +21,14 @@
 (defvar-local yxl-project-note-file "NOTE.org")
 
 (defvar-local yxl-project-bib-file nil)
+
+(defun yxl-project-open ()
+  "Open projects registered in `yxl-project-list'"
+  (interactive)
+  (ivy-read "Open project:"
+            yxl-project-list
+            :action (lambda (x) (yxl-find-dir (expand-file-name x)))
+            :caller 'yxl-project-open))
 
 (defun yxl-project-todo-popup ()
   "Popup the project todo file."
