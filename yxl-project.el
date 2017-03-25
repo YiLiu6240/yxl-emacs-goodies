@@ -42,6 +42,7 @@
   (interactive)
   (ivy-read "Open project file:"
             '(("main" . (lambda () (yxl-project-find-file yxl-project-main-file)))
+              ("root" . (lambda () (find-file (projectile-project-root))))
               ("todo" . (lambda () (yxl-project-find-file yxl-project-todo-file)))
               ("note" . (lambda () (yxl-project-find-file yxl-project-note-file)))
               ("make" . (lambda () (yxl-project-find-file yxl-project-make-file)))
