@@ -60,7 +60,7 @@ URL `http://ergoemacs.org/emacs/emacs_dired_open_file_in_ext_apps.html'
                              "/usr/bin/xdg-open")))
       (start-process "" nil openFileProgram ".")))))
 
-(setq yxl-open-file-external-commands
+(defvar yxl-open-file-external-commands
       ;; TODO: open in browser:
       ;;       I set `browse-url-browser-function' to sth like "open"
       ;;       and it opens default program instead of a browser when current file
@@ -70,6 +70,7 @@ URL `http://ergoemacs.org/emacs/emacs_dired_open_file_in_ext_apps.html'
         ("gvim" . (lambda (x) (shell-command (format "gvim \"%s\"" x))))
         ("subl" . (lambda (x) (shell-command (format "subl \"%s\"" x))))
         ("atom" . (lambda (x) (shell-command (format "atom \"%s\"" x))))
+        ("zathura" . (lambda (x) (shell-command (format "zathura \"%s\" & disown" x))))
         ("desktop" . (lambda (x) (yxl-open-in-desktop)))
         ("directory in terminal" . (lambda (x) (yxl-open-in-terminal)))))
 
