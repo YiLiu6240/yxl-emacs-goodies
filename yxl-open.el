@@ -60,19 +60,42 @@ URL `http://ergoemacs.org/emacs/emacs_dired_open_file_in_ext_apps.html'
                              "/usr/bin/xdg-open")))
       (start-process "" nil openFileProgram ".")))))
 
-(defvar yxl-open-file-external-commands
-      ;; TODO: open in browser:
-      ;;       I set `browse-url-browser-function' to sth like "open"
-      ;;       and it opens default program instead of a browser when current file
-      ;;       is not default to open in a browser.
-      ;;       Might need a disgustingly complex way to invoke browser
-      '(("default" . (lambda (x) (browse-url x)))
-        ("gvim" . (lambda (x) (shell-command (format "gvim \"%s\"" x))))
-        ("subl" . (lambda (x) (shell-command (format "subl \"%s\"" x))))
-        ("atom" . (lambda (x) (shell-command (format "atom \"%s\"" x))))
-        ("zathura" . (lambda (x) (shell-command (format "zathura \"%s\" & disown" x))))
-        ("desktop" . (lambda (x) (yxl-open-in-desktop)))
-        ("directory in terminal" . (lambda (x) (yxl-open-in-terminal)))))
+(defun yxl-open--linux-command (cmd file)
+  (let ((process-connection-type nil))
+    (start-process "" nil cmd file)))
+
+(defun yxl-open--darwin-command (cmd file)
+  (shell-command (format "%s \"%s\"" cmd file)))
+
+(defun yxl-open--windows-command (cmd file)
+  (w32-shell-execute cmd (replace-regexp-in-string "/" "\\\\" file)))
+
+(defvar yxl-open-file-external-commands-linux
+  '(("default" . (lambda (x) (browse-url x)))
+    ("gvim" . (lambda (x) (yxl-open--linux-command "gvim" x)))
+    ("subl" . (lambda (x) (yxl-open--linux-command "subl" x)))
+    ("atom" . (lambda (x) (yxl-open--linux-command "atom" x)))
+    ("zathura" . (lambda (x) (yxl-open--linux-command "zathura" x)))
+    ("desktop" . (lambda (x) (yxl-open-in-desktop)))
+    ("directory in terminal" . (lambda (x) (yxl-open-in-terminal)))))
+
+(defvar yxl-open-file-external-commands-darwin
+  '(("default" . (lambda (x) (browse-url x)))
+    ("gvim" . (lambda (x) (yxl-open--darwin-command "gvim" x)))
+    ("subl" . (lambda (x) (yxl-open--darwin-command "subl" x)))
+    ("atom" . (lambda (x) (yxl-open--darwin-command "atom" x)))
+    ("zathura" . (lambda (x) (yxl-open--darwin-command "zathura" x)))
+    ("desktop" . (lambda (x) (yxl-open-in-desktop)))
+    ("directory in terminal" . (lambda (x) (yxl-open-in-terminal)))))
+
+(defvar yxl-open-file-external-commands-windows
+  '(("default" . (lambda (x) (browse-url x)))
+    ("gvim" . (lambda (x) (yxl-open--windows-command "gvim" x)))
+    ("subl" . (lambda (x) (yxl-open--windows-command "subl" x)))
+    ("atom" . (lambda (x) (yxl-open--windows-command "atom" x)))
+    ("zathura" . (lambda (x) (yxl-open--windows-command "zathura" x)))
+    ("desktop" . (lambda (x) (yxl-open-in-desktop)))
+    ("directory in terminal" . (lambda (x) (yxl-open-in-terminal)))))
 
 (defun yxl-open-file-external (&optional file)
   "open current file in an external command as defined in
@@ -82,10 +105,13 @@ URL `http://ergoemacs.org/emacs/emacs_dired_open_file_in_ext_apps.html'
                        (if (derived-mode-p 'dired-mode)
                            (dired-get-file-for-visit)
                          buffer-file-name))))
-   (ivy-read "Open in external applications:"
-            yxl-open-file-external-commands
-            :action (lambda (x)
-                      (funcall (cdr x) file-path))
-            :caller 'yxl-open-file-external)))
+    (ivy-read "Open in external applications:"
+              (cond
+               ((eq system-type 'gnu/linux) yxl-open-file-external-commands-linux)
+               ((eq system-type 'darwin) yxl-open-file-external-commands-darwin)
+               ((eq system-type 'windows-nt) yxl-open-file-external-commands-windows))
+              :action (lambda (x)
+                        (funcall (cdr x) file-path))
+              :caller 'yxl-open-file-external)))
 
 (provide 'yxl-open)
