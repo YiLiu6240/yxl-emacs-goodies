@@ -111,6 +111,27 @@ Version 2016-12-22"
   (let ((file (dired-get-file-for-visit)))
     (yxl-ace-window-open-horz file)))
 
+(defun ora-ediff-files ()
+  ;; https://oremacs.com/
+  (interactive)
+  (let ((files (dired-get-marked-files))
+        (wnd (current-window-configuration)))
+    (if (<= (length files) 2)
+        (let ((file1 (car files))
+              (file2 (if (cdr files)
+                         (cadr files)
+                       (read-file-name
+                        "file: "
+                        (dired-dwim-target-directory)))))
+          (if (file-newer-than-file-p file1 file2)
+              (ediff-files file2 file1)
+            (ediff-files file1 file2))
+          (add-hook 'ediff-after-quit-hook-internal
+                    (lambda ()
+                      (setq ediff-after-quit-hook-internal nil)
+                      (set-window-configuration wnd))))
+      (error "no more than 2 files should be marked"))))
+
 (defhydra yxl-dired-hydra-common (:color blue :hint nil)
   ("." nil "quit"))
 
@@ -141,6 +162,7 @@ Version 2016-12-22"
   ("s" hydra-dired-quick-sort/body "+sort" :color blue)
   ("T" yxl-hydra-dired-toggle/body "+toggle" :color blue)
   ("*" yxl-dired-hydra-mark/body "+mark" :color blue)
+  ("e" ora-ediff-files "ediff" :color blue)
   ("m" dired-mark "mark")
   ("u" dired-unmark "unmark")
   ("U" dired-unmark-all-marks "unmark all")
