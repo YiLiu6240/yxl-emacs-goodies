@@ -1,3 +1,4 @@
+(require 'cl-lib)
 (require 'ivy)
 
 (defvar yxl-buffer-stored-name nil)
@@ -13,6 +14,10 @@
                                            (inferior-ess-mode . R-mode)))
 
 (defvar yxl-buffer-stored-name nil)
+
+(defvar yxl-buffer-boring-buffer-regexp-list
+  '("\\` " "\\`\\*helm" "\\`\\*Echo Area" "\\`\\*Minibuf")
+  "regexp list of boring buffers that should be excluded")
 
 (defun yxl-buffer--translate-major-mode ()
   "Check if current `major-mode' is in `yxl-buffer-inherit-special-alist',
@@ -46,12 +51,19 @@ of the previous buffer, if the major-mode is listed in
   (set-window-buffer (selected-window) yxl-buffer-stored-name)
   (message "switch to stored buffer: %s" yxl-buffer-stored-name))
 
-(defun yxl-buffer--ivy-get-buffer-list-with-mode (cur-mode)
+(defun yxl-buffer--ivy-get-buffer-list-with-mode (cur-mode &optional reverse)
+  "Get the buffers associated with a specific major mode. if `reverse', get
+buffers that are NOT associated with a specific major mode."
   (delq nil
         (mapcar
          (lambda (buffer)
-           (when (equal cur-mode (buffer-local-value 'major-mode buffer))
-             (buffer-name buffer)))
+           (if reverse
+               (when (not (equal cur-mode
+                                 (buffer-local-value 'major-mode buffer)))
+                 (buffer-name buffer))
+             (when (equal cur-mode
+                          (buffer-local-value 'major-mode buffer))
+               (buffer-name buffer))))
          (buffer-list))))
 
 (defun yxl-buffer-switch-same-major-mode ()
@@ -62,5 +74,28 @@ of the previous buffer, if the major-mode is listed in
               :action (lambda (x)
                         (switch-to-buffer x))
               :caller 'yxl-buffer-switch-same-major-mode)))
+
+(defun yxl-buffer-skip (seq regexp-list)
+  "Basically a skip function adopted from helm"
+  (let ((black-regexp (concat "\\(?:" (mapconcat 'identity
+                                                 regexp-list
+                                                 "\\)\\|\\(?:")
+                              "\\)")))
+    (cl-loop for i in seq
+             unless (and (stringp i)
+                         (string-match-p black-regexp i))
+             collect i)))
+
+(defun yxl-buffer-switch ()
+  "Switch to non-dired buffers"
+  (interactive)
+  (ivy-read "Switch to non-dired buffer(s): "
+            (yxl-buffer-skip
+             (yxl-buffer--ivy-get-buffer-list-with-mode 'dired-mode t)
+             yxl-buffer-boring-buffer-regexp-list)
+            :preselect (buffer-name (current-buffer))
+            :action (lambda (x)
+                      (switch-to-buffer x))
+            :caller 'yxl-buffer-swicth))
 
 (provide 'yxl-buffer)
