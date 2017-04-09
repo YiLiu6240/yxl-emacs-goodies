@@ -65,7 +65,7 @@ URL `http://ergoemacs.org/emacs/emacs_dired_open_file_in_ext_apps.html'
     (start-process "" nil cmd file)))
 
 (defun yxl-open--darwin-command (cmd file)
-  (shell-command (format "%s \"%s\"" cmd file)))
+  (shell-command (format "%s \"%s\" & disown" cmd file)))
 
 (defun yxl-open--windows-command (cmd file)
   (w32-shell-execute cmd (replace-regexp-in-string "/" "\\\\" file)))
