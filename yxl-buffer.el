@@ -86,7 +86,7 @@ buffers that are NOT associated with a specific major mode."
                          (string-match-p black-regexp i))
              collect i)))
 
-(defun yxl-buffer-switch ()
+(defun yxl-buffer-switch-non-dired ()
   "Switch to non-dired buffers"
   (interactive)
   (ivy-read "Switch to non-dired buffer(s): "
@@ -97,5 +97,13 @@ buffers that are NOT associated with a specific major mode."
             :action (lambda (x)
                       (switch-to-buffer x))
             :caller 'yxl-buffer-swicth))
+
+(defun yxl-buffer-switch ()
+  "Normal: ivy switch to non-dired buffers; C-u: ivy switch to buffers with
+the same major mode"
+  (interactive)
+  (if current-prefix-arg
+      (yxl-buffer-switch-same-major-mode)
+    (yxl-buffer-switch-non-dired)))
 
 (provide 'yxl-buffer)
