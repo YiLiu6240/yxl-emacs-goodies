@@ -13,8 +13,6 @@
 (defvar yxl-buffer-inherit-special-alist '((ess-mode . R-mode)
                                            (inferior-ess-mode . R-mode)))
 
-(defvar yxl-buffer-stored-name nil)
-
 (defvar yxl-buffer-boring-buffer-regexp-list
   '("\\` " "\\`\\*helm" "\\`\\*Echo Area" "\\`\\*Minibuf")
   "regexp list of boring buffers that should be excluded")
