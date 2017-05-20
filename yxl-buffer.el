@@ -7,6 +7,7 @@
                                        markdown-mode
                                        org-mode
                                        R-mode
+                                       ess-julia-mode
                                        python-mode
                                        emacs-lisp-mode)
   "modes that are allowed when calling yxl-buffer-inherit")
