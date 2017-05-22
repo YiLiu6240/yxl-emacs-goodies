@@ -9,7 +9,7 @@
 (defvar yxl-project-todo-global nil
   "Global / fallback todo file, usually your org file.")
 
-(defvar-local yxl-project-main-file nil
+(defvar-local yxl-project-main-file "README.md"
   "Project main file")
 
 (defvar-local yxl-project-make-file "Makefile"
@@ -18,7 +18,11 @@
 (defvar-local yxl-project-todo-file "TODO.org"
   "Name of the todo file.")
 
-(defvar-local yxl-project-note-file "NOTE.org")
+(defvar-local yxl-project-note-file "docs/NOTE.org"
+  "Name of a note file.")
+
+(defvar-local yxl-project-tmp-file "tmp"
+  "Name of a temporary file. Usually this should not be tracked.")
 
 (defvar-local yxl-project-bib-file nil)
 
@@ -57,7 +61,8 @@
               ("todo" . (lambda () (yxl-project-find-file yxl-project-todo-file)))
               ("note" . (lambda () (yxl-project-find-file yxl-project-note-file)))
               ("make" . (lambda () (yxl-project-find-file yxl-project-make-file)))
-              ("bib"  . (lambda () (yxl-project-find-file yxl-project-bib-file))))
+              ("bib"  . (lambda () (yxl-project-find-file yxl-project-bib-file)))
+              ("tmp"  . (lambda () (yxl-project-find-file yxl-project-tmp-file))))
             :action (lambda (x) (funcall (cdr x)))
             :caller 'yxl-project-select))
 
