@@ -15,6 +15,9 @@
 (defvar-local yxl-project-make-file "Makefile"
   "Project make file")
 
+(defvar-local yxl-project-doc-file "README.md"
+  "Project documentation file")
+
 (defvar-local yxl-project-todo-file "TODO.org"
   "Name of the todo file.")
 
@@ -53,16 +56,20 @@
 (defun yxl-project-find-file (file)
   (find-file (concat (projectile-project-root) file)))
 
+(defvar-local yxl-project-actions
+  '(("main" . (lambda () (yxl-project-find-file yxl-project-main-file)))
+    ("root" . (lambda () (find-file (projectile-project-root))))
+    ("doc" . (lambda () (yxl-project-find-file yxl-project-doc-file)))
+    ("todo" . (lambda () (yxl-project-find-file yxl-project-todo-file)))
+    ("note" . (lambda () (yxl-project-find-file yxl-project-note-file)))
+    ("make" . (lambda () (yxl-project-find-file yxl-project-make-file)))
+    ("bib"  . (lambda () (yxl-project-find-file yxl-project-bib-file)))
+    ("tmp"  . (lambda () (yxl-project-find-file yxl-project-tmp-file)))))
+
 (defun yxl-project-select ()
   (interactive)
   (ivy-read "Open project file:"
-            '(("main" . (lambda () (yxl-project-find-file yxl-project-main-file)))
-              ("root" . (lambda () (find-file (projectile-project-root))))
-              ("todo" . (lambda () (yxl-project-find-file yxl-project-todo-file)))
-              ("note" . (lambda () (yxl-project-find-file yxl-project-note-file)))
-              ("make" . (lambda () (yxl-project-find-file yxl-project-make-file)))
-              ("bib"  . (lambda () (yxl-project-find-file yxl-project-bib-file)))
-              ("tmp"  . (lambda () (yxl-project-find-file yxl-project-tmp-file))))
+            yxl-project-actions
             :action (lambda (x) (funcall (cdr x)))
             :caller 'yxl-project-select))
 
