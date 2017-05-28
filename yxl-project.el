@@ -54,23 +54,41 @@
     (helm-bibtex arg)))
 
 (defun yxl-project-find-file (file)
-  (find-file (concat (projectile-project-root) file)))
+  (if file
+      (find-file (concat (projectile-project-root) file))
+    (find-file (projectile-project-root))))
 
-(defvar-local yxl-project-actions
-  '(("main" . (lambda () (yxl-project-find-file yxl-project-main-file)))
-    ("root" . (lambda () (find-file (projectile-project-root))))
-    ("doc" . (lambda () (yxl-project-find-file yxl-project-doc-file)))
-    ("todo" . (lambda () (yxl-project-find-file yxl-project-todo-file)))
-    ("note" . (lambda () (yxl-project-find-file yxl-project-note-file)))
-    ("make" . (lambda () (yxl-project-find-file yxl-project-make-file)))
-    ("bib"  . (lambda () (yxl-project-find-file yxl-project-bib-file)))
-    ("tmp"  . (lambda () (yxl-project-find-file yxl-project-tmp-file)))))
+(defun yxl-project-popup-file (file)
+  (if file
+      (popwin:popup-buffer (find-file-noselect
+                            (concat (projectile-project-root) file))
+                           :stick t :height 0.4
+                           :position 'bottom)
+    (popwin:popup-buffer (find-file-noselect
+                          (projectile-project-root)
+                          :stick t :height 0.4
+                          :position 'bottom))))
+(defvar yxl-project-files
+  `(("main" . ,yxl-project-main-file)
+    ("root" . nil)
+    ("doc" . ,yxl-project-doc-file)
+    ("todo" . ,yxl-project-todo-file)
+    ("note" . ,yxl-project-note-file)
+    ("make" . ,yxl-project-make-file)
+    ("bib"  . ,yxl-project-bib-file)
+    ("tmp"  . ,yxl-project-tmp-file)))
 
 (defun yxl-project-select ()
   (interactive)
   (ivy-read "Open project file:"
-            yxl-project-actions
-            :action (lambda (x) (funcall (cdr x)))
+            yxl-project-files
+            :action (lambda (x) (yxl-project-find-file (cdr x)))
             :caller 'yxl-project-select))
+
+(ivy-add-actions
+ 'yxl-project-select
+ '(("p" (lambda (x) (let ((file (cdr x)))
+                      (yxl-project-popup-file file)))
+    "popup")))
 
 (provide 'yxl-project)
