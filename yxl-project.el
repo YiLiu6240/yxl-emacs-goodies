@@ -69,25 +69,25 @@
                           :stick t :height 0.4
                           :position 'bottom))))
 (defvar yxl-project-files
-  `(("main" . ,yxl-project-main-file)
+  '(("main" . yxl-project-main-file)
     ("root" . nil)
-    ("doc" . ,yxl-project-doc-file)
-    ("todo" . ,yxl-project-todo-file)
-    ("note" . ,yxl-project-note-file)
-    ("make" . ,yxl-project-make-file)
-    ("bib"  . ,yxl-project-bib-file)
-    ("tmp"  . ,yxl-project-tmp-file)))
+    ("doc" . yxl-project-doc-file)
+    ("todo" . yxl-project-todo-file)
+    ("note" . yxl-project-note-file)
+    ("make" . yxl-project-make-file)
+    ("bib"  . yxl-project-bib-file)
+    ("tmp"  . yxl-project-tmp-file)))
 
 (defun yxl-project-select ()
   (interactive)
   (ivy-read "Open project file:"
             yxl-project-files
-            :action (lambda (x) (yxl-project-find-file (cdr x)))
+            :action (lambda (x) (yxl-project-find-file (symbol-value (cdr x))))
             :caller 'yxl-project-select))
 
 (ivy-add-actions
  'yxl-project-select
- '(("p" (lambda (x) (let ((file (cdr x)))
+ '(("p" (lambda (x) (let ((file (symbol-value (cdr x))))
                       (yxl-project-popup-file file)))
     "popup")))
 
