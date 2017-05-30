@@ -2,6 +2,7 @@
 (require 'dired-quick-sort)
 (require 'ivy)
 (require 'yxl-ace-window)
+(require 'yxl-dired-highlight)
 
 (defun yxl-dired-popup ()
   (interactive)
@@ -192,6 +193,7 @@ Version 2016-12-22"
   ("T" yxl-hydra-dired-toggle/body "+toggle" :color blue)
   ("*" yxl-dired-hydra-mark/body "+mark" :color blue)
   ("e" ora-ediff-files "ediff" :color blue)
+  ("h" yxl-dired-highlight-minor-mode "highlight" :color blue)
   ("m" dired-mark "mark")
   ("u" dired-unmark "unmark")
   ("U" dired-unmark-all-marks "unmark all")
