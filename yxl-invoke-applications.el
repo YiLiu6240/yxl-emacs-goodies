@@ -10,10 +10,7 @@
 (defun yxl-invoke-applications ()
   (interactive)
   (ivy-read "Invoke applications:"
-            (sort (delete-dups yxl-ia-list) (lambda (elem1 elem2)
-                                              (let ((str1 (car elem1))
-                                                    (str2 (car elem2)))
-                                                (string-lessp str1 str2))))
+            yxl-ia-list
             :action (lambda (x) (funcall (cdr x)))
             :caller 'yxl-invoke-select))
 
