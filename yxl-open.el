@@ -76,6 +76,7 @@ URL `http://ergoemacs.org/emacs/emacs_dired_open_file_in_ext_apps.html'
     ("subl" . (lambda (x) (yxl-open--linux-command "subl" x)))
     ("atom" . (lambda (x) (yxl-open--linux-command "atom" x)))
     ("zathura" . (lambda (x) (yxl-open--linux-command "zathura" x)))
+    ("tad" . (lambda (x) (yxl-open--linux-command "tad" x)))
     ("desktop" . (lambda (x) (yxl-open-in-desktop)))
     ("directory in terminal" . (lambda (x) (yxl-open-in-terminal)))))
 
