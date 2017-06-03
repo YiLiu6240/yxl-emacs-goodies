@@ -92,15 +92,33 @@
 
 (defun yxl-project-select ()
   (interactive)
-  (ivy-read "Open project file:"
+  (ivy-read "Visit project file:"
             yxl-project-files
-            :action (lambda (x) (yxl-project-find-file (symbol-value (cdr x))))
+            :action (lambda (x)
+                      (yxl-project-find-file (symbol-value (cdr x))))
+            :caller 'yxl-project-select))
+
+(defun yxl-project-popup ()
+  (interactive)
+  (ivy-read "Popup project file:"
+            yxl-project-files
+            :action (lambda (x)
+                      (yxl-project-popup-file (symbol-value (cdr x))))
             :caller 'yxl-project-select))
 
 (ivy-add-actions
  'yxl-project-select
  '(("p" (lambda (x) (let ((file (symbol-value (cdr x))))
                       (yxl-project-popup-file file)))
+    "popup")
+   ("d" (lambda (x) (let ((file (symbol-value (cdr x))))
+                      (yxl-project-popup-directory file)))
+    "directory")))
+
+(ivy-add-actions
+ 'yxl-project-select
+ '(("o" (lambda (x) (let ((file (symbol-value (cdr x))))
+                      (yxl-project-find-file file)))
     "popup")
    ("d" (lambda (x) (let ((file (symbol-value (cdr x))))
                       (yxl-project-popup-directory file)))
