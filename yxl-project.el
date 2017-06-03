@@ -24,7 +24,10 @@
 (defvar-local yxl-project-note-file "docs/NOTE.org"
   "Name of a note file.")
 
-(defvar-local yxl-project-tmp-file "tmp"
+(defvar-local yxl-project-tmp-code-file "tmp.py"
+  "Name of a temporary file. Usually this should not be tracked.")
+
+(defvar-local yxl-project-tmp-text-file "tmp.md"
   "Name of a temporary file. Usually this should not be tracked.")
 
 (defvar-local yxl-project-bib-file nil)
@@ -84,7 +87,8 @@
     ("note" . yxl-project-note-file)
     ("make" . yxl-project-make-file)
     ("bib"  . yxl-project-bib-file)
-    ("tmp"  . yxl-project-tmp-file)))
+    ("tmp-code"  . yxl-project-tmp-code-file)
+    ("tmp-text"  . yxl-project-tmp-text-file)))
 
 (defun yxl-project-select ()
   (interactive)
