@@ -68,6 +68,14 @@
                           (projectile-project-root)
                           :stick t :height 0.4
                           :position 'bottom))))
+
+(defun yxl-project-popup-directory (file)
+  (popwin:popup-buffer (find-file-noselect
+                        (file-name-directory
+                         (concat (projectile-project-root) file)))
+                       :stick t :height 0.4
+                       :position 'bottom))
+
 (defvar yxl-project-files
   '(("main" . yxl-project-main-file)
     ("root" . nil)
@@ -89,6 +97,9 @@
  'yxl-project-select
  '(("p" (lambda (x) (let ((file (symbol-value (cdr x))))
                       (yxl-project-popup-file file)))
-    "popup")))
+    "popup")
+   ("d" (lambda (x) (let ((file (symbol-value (cdr x))))
+                      (yxl-project-popup-directory file)))
+    "directory")))
 
 (provide 'yxl-project)
