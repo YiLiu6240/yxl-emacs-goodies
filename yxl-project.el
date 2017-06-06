@@ -68,9 +68,9 @@
                            :stick t :height 0.4
                            :position 'bottom)
     (popwin:popup-buffer (find-file-noselect
-                          (projectile-project-root)
-                          :stick t :height 0.4
-                          :position 'bottom))))
+                          (projectile-project-root))
+                         :stick t :height 0.4
+                         :position 'bottom)))
 
 (defun yxl-project-popup-directory (file)
   (popwin:popup-buffer (find-file-noselect
