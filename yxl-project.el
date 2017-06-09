@@ -30,6 +30,10 @@
 (defvar-local yxl-project-tmp-text-file "tmp.md"
   "Name of a temporary file. Usually this should not be tracked.")
 
+(defvar-local yxl-project-output-directory "output"
+  "Name of an output directory. Could be \"output\", or \"build\"
+or whatever suits the purpose of the project.")
+
 (defvar-local yxl-project-bib-file nil)
 
 (defun yxl-project-open ()
@@ -82,6 +86,7 @@
 (defvar yxl-project-files
   '(("main" . yxl-project-main-file)
     ("root" . nil)
+    ("output" . yxl-project-output-directory)
     ("doc" . yxl-project-doc-file)
     ("todo" . yxl-project-todo-file)
     ("note" . yxl-project-note-file)
