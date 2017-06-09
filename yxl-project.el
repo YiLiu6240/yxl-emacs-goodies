@@ -83,6 +83,30 @@ or whatever suits the purpose of the project.")
                        :stick t :height 0.4
                        :position 'bottom))
 
+(defun yxl-project-shell-popup ()
+  (interactive)
+  (let ((buf-name "*shell*")
+        (cur-buf (current-buffer))
+        (cwd (projectile-project-root)))
+    (unless (buffer-live-p (get-buffer buf-name))
+      (progn
+        (get-buffer-create buf-name)
+        (with-current-buffer buf-name
+          (shell))
+        (switch-to-buffer cur-buf)))
+    (popwin:popup-buffer (get-buffer buf-name)
+                         :stick t :height 0.4
+                         :position 'bottom)
+    (unless (equal default-directory cwd)
+      (funcall (lambda (cwd)
+                 (goto-char (point-max))
+                 (comint-kill-input)
+                 (insert (concat "cd " cwd))
+                 (let ((comint-process-echoes t))
+                   (comint-send-input))
+                 (recenter 0))
+               cwd))))
+
 (defvar yxl-project-files
   '(("main" . yxl-project-main-file)
     ("root" . nil)
