@@ -1,6 +1,7 @@
 (require 'yxl-find)
 (require 'ivy)
 (require 'projectile)
+(require 'helm)
 (require 'helm-bibtex)
 
 (defvar yxl-project-list nil
@@ -35,6 +36,19 @@
 or whatever suits the purpose of the project.")
 
 (defvar-local yxl-project-bib-file nil)
+
+(defvar-local yxl-project-helm-sources
+  '(((name . "Project files")
+     (candidates . (("root" . nil)
+                    ("Makefile" . "Makefile")))
+     (action . (("popup" lambda (x) (yxl-project-popup-directory x))
+                ("visit" lambda (x) (yxl-project-find-file x)))))
+    ((name . "Documentations")
+     (candidates . (("README" . "README.md")
+                    ("todo" . "TODO")))
+     (action . (("popup" lambda (x) (yxl-project-popup-directory x))
+                ("visit" lambda (x) (yxl-project-find-file x))))))
+  "The basic structure of sources used in yxl-project-helm.")
 
 (defun yxl-project-open ()
   "Open projects registered in `yxl-project-list'"
@@ -152,5 +166,14 @@ or whatever suits the purpose of the project.")
    ("d" (lambda (x) (let ((file (symbol-value (cdr x))))
                       (yxl-project-popup-directory file)))
     "directory")))
+
+(defun yxl-project-helm ()
+  "A helm implementation that is more flexible than
+`yxl-project-select' and `yxl-project-popup'."
+  (interactive)
+  (helm :sources
+        yxl-project-helm-sources
+        :action (lambda (candidate)
+                  (funcall candidate))))
 
 (provide 'yxl-project)
