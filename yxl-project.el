@@ -39,7 +39,7 @@ or whatever suits the purpose of the project.")
 
 (defvar-local yxl-project-helm-sources
   '(((name . "Project files")
-     (candidates . (("root" . nil)
+     (candidates . (("./" . "./")
                     ("Makefile" . "Makefile")))
      (action . (("popup" lambda (x) (yxl-project-popup-file x))
                 ("visit" lambda (x) (yxl-project-find-file x)))))
