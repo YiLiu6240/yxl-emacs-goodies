@@ -167,13 +167,24 @@ or whatever suits the purpose of the project.")
                       (yxl-project-popup-directory file)))
     "directory")))
 
+(defun yxl-project-helm-display (buffer)
+  (let ((display-buffer-alist (list '("*.*helm.**"
+                                      (display-buffer-in-side-window)
+                                      (inhibit-same-window . t)
+                                      (side . left)
+                                      (window-width . 0.2)
+                                      (window-height . 0.4))))
+        (helm-split-window-default-side 'left))
+    (helm-default-display-buffer buffer)))
+
 (defun yxl-project-helm ()
   "A helm implementation that is more flexible than
 `yxl-project-select' and `yxl-project-popup'."
   (interactive)
-  (helm :sources
-        yxl-project-helm-sources
-        :action (lambda (candidate)
-                  (funcall candidate))))
+  (let ((helm-display-function #'yxl-project-helm-display))
+    (helm :sources
+          yxl-project-helm-sources
+          :action (lambda (candidate)
+                    (funcall candidate)))))
 
 (provide 'yxl-project)
