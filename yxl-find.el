@@ -2,9 +2,9 @@
 (require 'counsel)
 (require 'yxl-open)
 
-(defun yxl-find-file-popup (file)
+(defun yxl-find-file-popup (file &optional width)
   (interactive)
-  (let ((pop-width (yxl-window-popwin-width)))
+  (let ((pop-width (yxl-window-popwin-width width)))
     (cond
      ((equal current-prefix-arg '(4))
       (find-file file))

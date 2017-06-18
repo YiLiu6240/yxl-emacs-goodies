@@ -5,11 +5,13 @@
 
 (defvar yxl-window-stored-layout nil)
 
-(defun yxl-window-popwin-width ()
+(defun yxl-window-popwin-width (&optional width)
   "calculate the size of the popwin window, base on current frame width"
   (let ((win-width (round (* (frame-width) 0.20)))
         (min-width 20))
-    (cond ((> (frame-width) 100)
+    (cond (width
+           width)
+          ((> (frame-width) 100)
            win-width)
           (t
            min-width))))
