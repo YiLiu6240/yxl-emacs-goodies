@@ -16,30 +16,27 @@
   "local files")
 
 (defun yxl-helm-org-files ()
-  "
-A list of file paths.
-"
+  "A list of file paths."
   (interactive)
   (helm :sources
-        `(,(helm-build-sync-source
-            "Org files"
-             :candidates yxl-hhs-org-files
-             :action  (helm-make-actions
-                       "open" #'find-file
-                       "open other window" #'find-file-other-window))
-          ,(helm-build-sync-source
-            "Fallback"
-             :match (lambda (_candidate) t)
-             :candidates '(("open all files" .
-                            (lambda (x)
-                              (yxl-find-file-open-all yxl-hhs-org-files))))
-             :action (lambda (candidate) (funcall candidate helm-pattern))))
+        `(((name . "Org files")
+           (candidates . ,yxl-hhs-org-files)
+           (action . (("open" #'file-file)
+                      ("open other window" #'find-file-other-window))))
+          ((name . "Others")
+           (match . (lambda (_candidate) t))
+           (candidates
+            . (("Open all files"
+                . (lambda (x)
+                    (yxl-find-file-open-all yxl-hhs-org-files)))
+               ("Hotspot"
+                . (lambda (x)
+                    (yxl-helm-hotspot)))))
+           (action . (("open" lambda (x) (funcall x helm-pattern))))))
         :buffer "*helm org agenda*"))
 
 (defun yxl-helm-shortcuts ()
-  "
-An assoc list with elements as (ALIAS . FILE-PATH).
-"
+  "Shortcuts."
   (interactive)
   (let ((helm-full-frame t))
     (helm :sources
@@ -73,59 +70,58 @@ An assoc list with elements as (ALIAS . FILE-PATH).
                :action (lambda (candidate) (funcall candidate)))))))
 
 (defun yxl-helm-reading-list ()
-  "
-reading list.
-"
+  "Reading list."
   (interactive)
   (let ((helm-full-frame t))
-   (helm :sources
-        `(,(helm-build-in-file-source
-               "Reading: local files"
-             yxl-hhs-file-reading-list-local
-             :action (helm-make-actions
-                      "open" #'find-file
-                      "open-alt" (lambda (x)
-                                   (spacemacs//open-in-external-app
-                                    (expand-file-name x)))))
-          ,(helm-build-in-file-source
-               "Reading: web pages"
-             yxl-hhs-file-reading-list-webpages
-             :action (helm-make-actions
-                      "browse" #'browse-url-generic
-                      "browse in w3m" #'w3m-goto-url-new-session))
-          ,(helm-build-sync-source
-               "Fallback"
-             :match (lambda (_candidate) t)  ;; persistent
-             :candidates '(("edit: local" .
-                            (lambda ()
-                              (find-file yxl-hhs-file-reading-list-local)))
-                           ("edit: webpages" .
-                            (lambda ()
-                              (find-file yxl-hhs-file-reading-list-webpages)))
-                           ("yxl-helm-hotspot" . yxl-helm-hotspot))
-             :action (lambda (candidate) (funcall candidate)))))))
+    (helm :sources
+          `(,(helm-build-in-file-source
+                 "Reading: local files"
+               yxl-hhs-file-reading-list-local
+               :action (helm-make-actions
+                        "open" #'find-file
+                        "open-alt" (lambda (x)
+                                     (spacemacs//open-in-external-app
+                                      (expand-file-name x)))))
+            ,(helm-build-in-file-source
+                 "Reading: web pages"
+               yxl-hhs-file-reading-list-webpages
+               :action (helm-make-actions
+                        "browse" #'browse-url-generic
+                        "browse in w3m" #'w3m-goto-url-new-session))
+            ,(helm-build-sync-source
+                 "Fallback"
+               :match (lambda (_candidate) t)  ;; persistent
+               :candidates '(("edit: local" .
+                              (lambda ()
+                                (find-file yxl-hhs-file-reading-list-local)))
+                             ("edit: webpages" .
+                              (lambda ()
+                                (find-file yxl-hhs-file-reading-list-webpages)))
+                             ("yxl-helm-hotspot" . yxl-helm-hotspot))
+               :action (lambda (candidate) (funcall candidate)))))))
 
-(setq yxl-hhs--entry-list
-      '(("yxl-helm-org-files" . yxl-helm-org-files)
-        ("yxl-helm-shortcuts" . yxl-helm-shortcuts)
-        ("yxl-helm-reading-list" . yxl-helm-reading-list)
-        ("calendar" . cfw-open-calendar)
-        ("calculator" . (lambda ()
-                          (helm-calcul-expression)))
-        ("rss" . elfeed)
-        ("helm-github-stars" . helm-github-stars)
-        ("helm-show-kill-ring" . helm-show-kill-ring)
-        ("helm-all-mark-rings" . helm-all-mark-rings)
-        ("helm-chrome-bookmarks" . helm-chrome-bookmarks)))
+(defvar yxl-hhs--entry-list
+  '(((name . "My Own Hotspot")
+     (candidates . (("yxl-helm-org-files" . yxl-helm-org-files)
+                    ("yxl-helm-shortcuts" . yxl-helm-shortcuts)
+                    ("yxl-helm-reading-list" . yxl-helm-reading-list)))
+     (action . (("open" lambda (x) (funcall x)))))
+    ((name . "Emacs")
+     (candidates . (("calendar" . cfw-open-calendar)
+                    ("calculator" . (lambda ()
+                                      (helm-calcul-expression)))
+                    ("rss" . elfeed)))
+     (action . (("open" lambda (x) (funcall x)))))
+    ((name . "Other Helm")
+     (candidates . (("helm-github-stars" . helm-github-stars)
+                    ("helm-show-kill-ring" . helm-show-kill-ring)
+                    ("helm-all-mark-rings" . helm-all-mark-rings)
+                    ("helm-chrome-bookmarks" . helm-chrome-bookmarks)))
+     (action . (("open" lambda (x) (funcall x)))))))
 
 (defun yxl-helm-hotspot ()
   (interactive)
-  (helm :sources
-        `(,(helm-build-sync-source
-            "My hotspot"
-            :candidates yxl-hhs--entry-list
-            :action (helm-make-actions
-                     "open" (lambda (x) (funcall x)))))
+  (helm :sources yxl-hhs--entry-list
         :buffer "*helm yxl hotspot*"))
 
 (provide 'yxl-helm-hotspot)
