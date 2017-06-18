@@ -26,9 +26,17 @@
           ((name . "Others")
            (match . (lambda (_candidate) t))
            (candidates
-            . (("Open all files"
+            . (("Open all files in one frame"
                 . (lambda (x)
                     (yxl-find-file-open-all yxl-hhs-org-files)))
+               ("Open each file in new frame"
+                . (lambda (x)
+                    (let ((func (lambda (x)
+                                  (make-frame)
+                                  (delete-other-windows)
+                                  (find-file x))))
+                      (find-file (car yxl-hhs-org-files))
+                      (mapc func (cdr yxl-hhs-org-files)))))
                ("Hotspot"
                 . (lambda (x)
                     (yxl-helm-hotspot)))))
