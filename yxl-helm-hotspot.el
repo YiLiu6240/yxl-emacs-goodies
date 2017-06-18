@@ -21,8 +21,8 @@
   (helm :sources
         `(((name . "Org files")
            (candidates . ,yxl-hhs-org-files)
-           (action . (("open" #'file-file)
-                      ("open other window" #'find-file-other-window))))
+           (action . (("open" lambda (x) (find-file x))
+                      ("open other window" lambda (x) (find-file-other-window x)))))
           ((name . "Others")
            (match . (lambda (_candidate) t))
            (candidates
