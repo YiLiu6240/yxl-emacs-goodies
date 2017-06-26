@@ -16,4 +16,13 @@
     (setq browse-url-browser-function yxl-web-secondary-browser-func))
   (message "browse-url-browser-function: %s" browse-url-browser-function))
 
+(defun browse-url-qutebrowser (url &optional _new-window)
+  (interactive (browse-url-interactive-arg "URL: "))
+  (setq url (browse-url-encode-url url))
+  (let* ((process-environment (browse-url-process-environment)))
+    (apply 'start-process
+           (concat "qutebrowser " url) nil
+           "qutebrowser"
+           (list url))))
+
 (provide 'yxl-web)
