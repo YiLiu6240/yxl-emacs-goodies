@@ -115,4 +115,15 @@
                    (recenter 0))
                  cwd)))))
 
+(defun yxl-insert-symbol (symbol)
+  "Insert symbol at the current place of the cursor, with proper padding.
+When the preceding character is not a whitespace, insert a whitespace; the same
+applies to the following character as well."
+  (interactive)
+  (let* ((char-ahead (string (preceding-char)))
+         (char-behind (string (following-char)))
+         (left-pad (unless (equal char-ahead " ") " "))
+         (right-pad (unless (equal char-behind " ") " ")))
+    (insert (concat left-pad symbol right-pad))))
+
 (provide 'yxl-utils)
