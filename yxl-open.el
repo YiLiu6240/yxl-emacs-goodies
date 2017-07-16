@@ -78,6 +78,8 @@ URL `http://ergoemacs.org/emacs/emacs_dired_open_file_in_ext_apps.html'
     ("zathura" . (lambda (x) (yxl-open--linux-command "zathura" x)))
     ("tad" . (lambda (x) (yxl-open--linux-command "tad" x)))
     ("desktop" . (lambda (x) (yxl-open-in-desktop)))
+    ;; Launch a ".desktop" file
+    ("self exec" . (lambda (x) (shell-command (format "%s" x))))
     ("directory in terminal" . (lambda (x) (yxl-open-in-terminal)))))
 
 (defvar yxl-open-file-external-commands-darwin
