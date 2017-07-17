@@ -76,13 +76,14 @@ or whatever suits the purpose of the project.")
 
 (defun yxl-project-find-file (file)
   (if file
-      (find-file (concat (projectile-project-root) file))
+      (find-file (file-truename (concat (projectile-project-root) file)))
     (find-file (projectile-project-root))))
 
 (defun yxl-project-popup-file (file)
   (if file
       (popwin:popup-buffer (find-file-noselect
-                            (concat (projectile-project-root) file))
+                            (file-truename (concat (projectile-project-root)
+                                                   file)))
                            :stick t :height 0.4
                            :position 'bottom)
     (popwin:popup-buffer (find-file-noselect
@@ -93,7 +94,8 @@ or whatever suits the purpose of the project.")
 (defun yxl-project-popup-directory (file)
   (popwin:popup-buffer (find-file-noselect
                         (file-name-directory
-                         (concat (projectile-project-root) file)))
+                         (file-truename (concat (projectile-project-root)
+                                                file))))
                        :stick t :height 0.4
                        :position 'bottom))
 
