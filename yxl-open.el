@@ -106,7 +106,7 @@ URL `http://ergoemacs.org/emacs/emacs_dired_open_file_in_ext_apps.html'
   (interactive)
   (let ((file-path (or file
                        (if (derived-mode-p 'dired-mode)
-                           (dired-get-file-for-visit)
+                           (dired-get-filename)
                          buffer-file-name))))
     (ivy-read "Open in external applications:"
               (cond
