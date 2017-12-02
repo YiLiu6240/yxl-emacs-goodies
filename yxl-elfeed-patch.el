@@ -5,6 +5,22 @@
 (ad-activate 'elfeed-show-yank)
 
 (defun yxl-elfeed-patch ()
+
+  (defun search-header/draw-wide (separator-left separator-right search-filter stats db-time)
+    (let* ((update (format-time-string "%Y-%m-%d %H:%M:%S %z" db-time))
+           (lhs (list
+                 (powerline-raw (-pad-string-to "Date" (- elfeed-goodies/feed-source-column-width 10)) 'powerline-active1 'l)
+                 (powerline-raw (-pad-string-to "Feed" (- elfeed-goodies/feed-source-column-width 4)) 'powerline-active1 'l)
+                 (funcall separator-left 'powerline-active1 'powerline-active2)
+                 (powerline-raw (-pad-string-to "Tags" (- elfeed-goodies/tag-column-width 6)) 'powerline-active2 'l)
+                 (funcall separator-left 'powerline-active2 'mode-line)
+                 (powerline-raw "Subject" 'mode-line 'l)))
+           (rhs (search-header/rhs separator-left separator-right search-filter stats update)))
+
+      (concat (powerline-render lhs)
+              (powerline-fill 'mode-line (powerline-width rhs))
+              (powerline-render rhs))))
+
   ;; HACK: highlight current entry name in header
   (defun elfeed-goodies/entry-header-line ()
     (let* ((title (elfeed-entry-title elfeed-show-entry))
