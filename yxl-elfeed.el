@@ -126,39 +126,41 @@ If no prefix arg: select tags from database; otherwise asks for input"
 
 (defun yxl-elfeed-helm-search ()
   (interactive)
-  (helm :sources
-        `(,(helm-build-sync-source
-               "Tags in database"
-             :candidates yxl-elfeed-db-tags
-             ;; NOTE: add t to append
-             :action (helm-make-actions
-                      "append to default filter" (lambda (x)
-                                                   (elfeed--read-tag x t))
-                      "replace default filter" (lambda (x)
-                                                 (elfeed--read-tag x))))
-          ,(helm-build-sync-source
-               "Built-in tags"
-             :candidates yxl-elfeed-tag-builtin-alist
-             :action (lambda (x) (apply #'elfeed--read-tag x)))
-          ,(helm-build-sync-source
-               "Fallback"
-             :match (lambda (_candidate) t)
-             :candidates '(("Default filter" .
-                            (lambda (x)
-                              (elfeed--read-tag (default-value
-                                                  'elfeed-search-filter))))
-                           ("Default filter: append" .
-                            (lambda (x)
-                              (elfeed--read-tag
-                               (concat (default-value
-                                         'elfeed-search-filter) " " x))))
-                           ("Current filter: append" .
-                            (lambda (x)
-                              (elfeed--read-tag
-                               (concat elfeed-search-filter " " x))))
-                           ("Manual filter" .
-                            (lambda (x) (elfeed--read-tag x))))
-             :action (lambda (x) (funcall x helm-pattern))))
-        :buffer "*Helm Elfeed Search*"))
+  (let ((helm-autoresize-max-height 80))
+    (helm-autoresize-mode t)
+    (helm :sources
+          `(,(helm-build-sync-source
+                 "Tags in database"
+               :candidates yxl-elfeed-db-tags
+               ;; NOTE: add t to append
+               :action (helm-make-actions
+                        "append to default filter" (lambda (x)
+                                                     (elfeed--read-tag x t))
+                        "replace default filter" (lambda (x)
+                                                   (elfeed--read-tag x))))
+            ,(helm-build-sync-source
+                 "Built-in tags"
+               :candidates yxl-elfeed-tag-builtin-alist
+               :action (lambda (x) (apply #'elfeed--read-tag x)))
+            ,(helm-build-sync-source
+                 "Fallback"
+               :match (lambda (_candidate) t)
+               :candidates '(("Default filter" .
+                              (lambda (x)
+                                (elfeed--read-tag (default-value
+                                                    'elfeed-search-filter))))
+                             ("Default filter: append" .
+                              (lambda (x)
+                                (elfeed--read-tag
+                                 (concat (default-value
+                                           'elfeed-search-filter) " " x))))
+                             ("Current filter: append" .
+                              (lambda (x)
+                                (elfeed--read-tag
+                                 (concat elfeed-search-filter " " x))))
+                             ("Manual filter" .
+                              (lambda (x) (elfeed--read-tag x))))
+               :action (lambda (x) (funcall x helm-pattern))))
+          :buffer "*Helm Elfeed Search*")))
 
 (provide 'yxl-elfeed)
