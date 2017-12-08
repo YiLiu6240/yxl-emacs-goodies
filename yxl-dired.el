@@ -35,7 +35,7 @@
 
 (defun concat-string-list (list)
   "Return a string which is a concatenation of all elements of the list separated by spaces"
-  (mapconcat '(lambda (obj) (format "%s" obj)) list " "))
+  (mapconcat (lambda (obj) (format "%s" obj)) list " "))
 
 (defun yxl-dired-zip-files (zip-file)
   "Create an archive containing the marked files.
@@ -52,7 +52,7 @@ http://stackoverflow.com/questions/1431351/how-do-i-uncompress-unzip-within-emac
              " "
              (concat-string-list
               (mapcar
-               '(lambda (filename)
+               (lambda (filename)
                   (file-name-nondirectory filename))
                (dired-get-marked-files))))))
   (revert-buffer))
