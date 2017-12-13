@@ -1,8 +1,8 @@
-(defadvice elfeed-show-yank (after elfeed-show-yank-to-kill-ring activate compile)
-  "Insert the yanked text from x-selection to kill ring"
-  (kill-new (x-get-selection)))
+;; (defadvice elfeed-show-yank (after elfeed-show-yank-to-kill-ring activate compile)
+;;   "Insert the yanked text from x-selection to kill ring"
+;;   (kill-new (x-get-selection)))
 
-(ad-activate 'elfeed-show-yank)
+;; (ad-activate 'elfeed-show-yank)
 
 (defun yxl-elfeed-patch ()
 
