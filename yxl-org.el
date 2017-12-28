@@ -1,4 +1,5 @@
 (require 'org)
+(require 'org-agenda)
 (require 'yxl-find)
 (require 'yxl-org-patch)
 
