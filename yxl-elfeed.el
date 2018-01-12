@@ -1,5 +1,4 @@
 (require 'elfeed)
-(require 'yxl-elfeed-patch)
 (require 'helm)
 (require 'ivy)
 
