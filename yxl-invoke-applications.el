@@ -9,9 +9,11 @@
 
 (defun yxl-invoke-applications ()
   (interactive)
-  (ivy-read "Invoke applications:"
-            yxl-ia-list
-            :action (lambda (x) (funcall (cdr x)))
-            :caller 'yxl-invoke-select))
+  (let* ((sort-func (lambda (x y) (string< (car x) (car y))))
+         (sorted-seq (seq-sort sort-func yxl-ia-list)))
+    (ivy-read "Invoke applications:"
+              sorted-seq
+              :action (lambda (x) (funcall (cdr x)))
+              :caller 'yxl-invoke-select)))
 
 (provide 'yxl-invoke-applications)
