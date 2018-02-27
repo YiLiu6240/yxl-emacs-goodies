@@ -92,4 +92,19 @@ Select the entire chain when at the root of the chain."
     (evil-backward-beginning 'evil-paragraph count)
     (unless (bobp) (forward-line -1))))
 
+(evil-define-command yxl-evil-scroll-line-to-golden-ratio (count)
+  "Scrolls line number COUNT (or the cusor line) to relatively 0.38 (from the top)
+of the total window size.
+(Modified from `evil-scroll-line-to-center')"
+  :repeat nil
+  :keep-visual t
+  (interactive "<c>")
+  (let* ((golden-ratio 0.38)
+         (line (round (* golden-ratio (window-total-height)))))
+    (evil-save-column
+      (when count
+        (goto-char (point-min))
+        (forward-line (1- count)))
+      (recenter line))))
+
 (provide 'yxl-evil)
