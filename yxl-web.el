@@ -1,19 +1,26 @@
 (require 'browse-url)
 
+(defvar yxl-web-browser-func-alist
+  '(("browse-url-generic" . browse-url-generic)
+    ("firefox" . browse-url-firefox)
+    ("chrome" . browse-url-chrome)
+    ("chromium" . browse-url-chromium)
+    ("w3m" . w3m-goto-url-new-session)
+    ("qutebrowser" . browse-url-qutebrowser))
+  "Alist of browse-url funcs.")
+
 ;; TODO: test this in windows and mac
 (setq browse-url-browser-function 'browse-url-generic)
 (setq browse-url-generic-program "open")
 (if (eq system-type 'gnu/linux)
     (setq browse-url-generic-program "xdg-open"))
 
-(setq-default yxl-web-primary-browser-func browse-url-browser-function)
-(setq-default yxl-web-secondary-browser-func #'w3m-goto-url-new-session)
-
 (defun yxl-web-switch-browser ()
   (interactive)
-  (if (not (equal browse-url-browser-function yxl-web-primary-browser-func))
-      (setq browse-url-browser-function yxl-web-primary-browser-func)
-    (setq browse-url-browser-function yxl-web-secondary-browser-func))
+  (ivy-read "Switch browser:"
+            yxl-web-browser-func-alist
+            :action (lambda (x)
+                      (setq browse-url-browser-function (cdr x))))
   (message "browse-url-browser-function: %s" browse-url-browser-function))
 
 (defun browse-url-qutebrowser (url &optional _new-window)
