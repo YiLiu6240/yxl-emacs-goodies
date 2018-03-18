@@ -32,9 +32,6 @@
         (orig-window (selected-window))
         (orig-buffer (window-buffer (selected-window)))
         (new-buffer (window-buffer new-window)))
-    (when (and (frame-live-p new-frame)
-               (not (eq new-frame (selected-frame))))
-      (select-frame-set-input-focus new-frame))
     (if (window-live-p new-window)
         (progn
           (set-window-buffer orig-window new-buffer))
@@ -45,9 +42,6 @@
         (orig-window (selected-window))
         (orig-buffer (window-buffer (selected-window)))
         (new-buffer (window-buffer new-window)))
-    (when (and (frame-live-p new-frame)
-               (not (eq new-frame (selected-frame))))
-      (select-frame-set-input-focus new-frame))
     (if (window-live-p new-window)
         (progn
           (set-window-buffer orig-window new-buffer)
