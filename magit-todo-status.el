@@ -33,6 +33,17 @@ and the send %s will be substituted by `magit-todo-status-ignore-regexp'")
         (goto-char (point-min))
         (forward-line (1- (string-to-number line-number)))))))
 
+(defun magit-todo-status-propertize-item (item)
+  (when (string-match "\\`\\(.*?\\):\\([0-9]+\\):\\(.*\\)\\'" item)
+    (let ((filename (match-string-no-properties 1 item))
+          (line-number (match-string-no-properties 2 item))
+          (content (match-string-no-properties 3 item)))
+      (concat (propertize filename 'face 'font-lock-type-face)
+              ":"
+              (propertize line-number 'face 'linum)
+              ":"
+              (propertize content 'face 'font-lock-comment-face)))))
+
 (defvar magit-todo-status-section-map
   (let ((map (make-sparse-keymap)))
     (define-key map [remap magit-visit-thing] #'magit-todo-status--visit-pos)
@@ -44,7 +55,7 @@ and the send %s will be substituted by `magit-todo-status-ignore-regexp'")
       (magit-insert-heading "Todo status:")
       (dolist (item items)
         (magit-insert-section (todo-status item))
-        (insert item)
+        (insert (magit-todo-status-propertize-item item))
         (insert ?\n))
       (insert ?\n))))
 
