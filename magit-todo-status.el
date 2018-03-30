@@ -5,11 +5,11 @@
   "Regexp pattern used to search for todo keywords.")
 
 (defvar magit-todo-status-ignore-regexp
-  ":!*.html"
+  ":\\(exclude\\)*.html :\\(exclude\\)*.csv :\\(exclude\\)*.csv.gz"
   "Regexp pattern used to ignore / exlucde things.")
 
 (defvar magit-todo-status-grep-cmd
-  "git --no-pager grep --full-name -n --no-color -e \"%s\" \"%s\""
+  "git --no-pager grep --full-name -n --no-color -e \"%s\" -- . %s"
   "git grep command pattern.
 
 The first %s will be substituted by `magit-todo-status-keyword-regexp',
@@ -58,5 +58,23 @@ and the send %s will be substituted by `magit-todo-status-ignore-regexp'")
         (insert (magit-todo-status-propertize-item item))
         (insert ?\n))
       (insert ?\n))))
+
+(defun magit-todo-stautus-toggle ()
+  "Toggle magit todo status section.
+
+This is useful if the git repo is a messy one and it takes too long
+to query for the grep."
+  (interactive)
+  (if (member 'magit-todo-status-insert-items magit-status-sections-hook)
+      (progn
+        (remove-hook 'magit-status-sections-hook 'magit-todo-status-insert-items)
+        (message "magit-todo-status-insert-items has been removed"))
+    (progn
+      (magit-add-section-hook
+       'magit-status-sections-hook
+       'magit-todo-status-insert-items
+       nil
+       t)
+      (message "magit-todo-status-insert-items has been added"))))
 
 (provide 'magit-todo-status)
