@@ -1,7 +1,7 @@
 (require 'magit)
 
 (defvar magit-todo-status-keyword-regexp
-  "\\<\\(FIXME\\|TODO\\|BUG\\|ISSUE\\|WIP\\|NEXT\\):"
+  "\\<\\(FIXME\\|TODO\\|BUG\\|ISSUE\\|WIP\\|NEXT\\|REVIEW\\):"
   "Regexp pattern used to search for todo keywords.")
 
 (defvar magit-todo-status-ignore-regexp
