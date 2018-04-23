@@ -23,16 +23,22 @@ otherwise prompt message to confirm to delete frame."
   (forward-line -1))
 
 (defun yxl-evil-insert-space ()
-  "identical to vim: i SPC <escape> l"
+  "Identical to vim: i SPC <escape> l."
   (interactive)
   (insert " "))
 
-(defun yxl-evil-apend-space ()
-  "identical to vim: a SPC <escape> hh"
+(defun yxl-evil-append-space ()
+  "Identical to vim: a SPC <escape> hh."
   (interactive)
   (forward-char 1)
   (insert " ")
   (forward-char -2))
+
+(defun yxl-evil-insert-space-around ()
+  "Invoke `yxl-evil-insert-space' and `yxl-evil-append-space'."
+  (interactive)
+  (yxl-evil-insert-space)
+  (yxl-evil-append-space))
 
 (defun evil-indent-plus--higher-indent-range (&optional point)
   "Return the point at the begin and end of the text block with greater
