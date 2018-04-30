@@ -77,10 +77,15 @@ This function makes sure that dates are aligned for easy reading."
 
 (defun yxl-org-refile-visible ()
   (interactive)
-  (if current-prefix-arg
-      (call-interactively #'org-refile)
-    (let* ((visible-org-files (yxl-org--get-visible-buffers))
-           (org-refile-targets visible-org-files))
-      (call-interactively #'org-refile))))
+  (let* ((visible-org-files (yxl-org--get-visible-buffers))
+         (org-refile-targets visible-org-files))
+    (call-interactively #'org-refile)))
+
+(defun yxl-org-refile-visible-to-top ()
+  (interactive)
+  (let* ((visible-org-files (yxl-org--get-visible-buffers))
+         (org-refile-targets visible-org-files)
+         (org-reverse-note-order t))
+    (call-interactively #'org-refile)))
 
 (provide 'yxl-org)
