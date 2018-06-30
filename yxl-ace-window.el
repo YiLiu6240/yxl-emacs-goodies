@@ -1,27 +1,14 @@
 (require 'ace-window)
 (require 'ivy)
 
-(defun yxl-ace-window--push-window (new-window)
-  (let ((new-frame (window-frame new-window))
-        (orig-buffer (window-buffer (selected-window)))
-        (window-pos (window-point)))
-    (setq yxl-ace-window--window-pos (window-point))
-    (when (and (frame-live-p new-frame)
-               (not (eq new-frame (selected-frame))))
-      (select-frame-set-input-focus new-frame))
-    (if (window-live-p new-window)
-        (progn
-          (select-window new-window)
-          (set-window-buffer new-window orig-buffer)
-          (set-window-point new-window window-pos))
-      (error "Got a dead window %S" new-window))))
+(defvar yxl-ace-window--delete-orig-window nil
+  "If t, then all window commands will delete the original window.")
 
-(defun yxl-ace-window--push-window-and-delete (new-window)
+(defun yxl-ace-window--push-window (new-window)
   (let ((new-frame (window-frame new-window))
         (orig-buffer (window-buffer (selected-window)))
         (orig-window (selected-window))
         (window-pos (window-point)))
-    (setq yxl-ace-window--window-pos (window-point))
     (when (and (frame-live-p new-frame)
                (not (eq new-frame (selected-frame))))
       (select-frame-set-input-focus new-frame))
@@ -30,7 +17,8 @@
           (select-window new-window)
           (set-window-buffer new-window orig-buffer)
           (set-window-point new-window window-pos)
-          (delete-window orig-window))
+          (if yxl-ace-window--delete-orig-window
+              (delete-window orig-window)))
       (error "Got a dead window %S" new-window))))
 
 (defun yxl-ace-window--fetch-window (new-window)
@@ -42,36 +30,21 @@
     (if (window-live-p new-window)
         (progn
           (set-window-buffer orig-window new-buffer)
-          (set-window-point window-pos))
-      (error "Got a dead window %S" new-window))))
-
-(defun yxl-ace-window--fetch-window-and-delete (new-window)
-  (let ((new-frame (window-frame new-window))
-        (orig-window (selected-window))
-        (orig-buffer (window-buffer (selected-window)))
-        (new-buffer (window-buffer new-window))
-        (window-pos (window-point new-window)))
-    (if (window-live-p new-window)
-        (progn
-          (set-window-buffer orig-window new-buffer)
-          (delete-window new-window)
+          (if yxl-ace-window--delete-orig-window
+              (delete-window new-window))
           (set-window-point window-pos))
       (error "Got a dead window %S" new-window))))
 
 (defun yxl-ace-window-push-window ()
   (interactive)
-  (if current-prefix-arg
-      (aw-select " Ace - push current window to destination"
-                 #'yxl-ace-window--push-window-and-delete)
+  (let ((yxl-ace-window--delete-orig-window current-prefix-arg))
     (aw-select " Ace - push current window to destination"
                #'yxl-ace-window--push-window)))
 
 (defun yxl-ace-window-fetch-window ()
   (interactive)
-  (if current-prefix-arg
-      (aw-select " Ace - push current window to destination"
-                 #'yxl-ace-window--fetch-window-and-delete)
-    (aw-select " Ace - push current window to destination"
+  (let ((yxl-ace-window--delete-orig-window current-prefix-arg))
+    (aw-select " Ace - fetch current window from destination"
                #'yxl-ace-window--fetch-window)))
 
 (defun yxl-ace-window-open (file)
